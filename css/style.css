@@ -1,0 +1,8 @@
+.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
+    border-radius: 0 0 0 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.main-container{margin-top:40px;}
+.banner { background:#ccc;}

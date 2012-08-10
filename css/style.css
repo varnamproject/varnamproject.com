@@ -1,8 +1,15 @@
-.navbar-fixed-top .navbar-inner, .navbar-fixed-bottom .navbar-inner {
-    border-radius: 0 0 0 0;
-    padding-left: 0;
-    padding-right: 0;
-}
-
+header{background:url(../img/bg.jpg) no-repeat left top;height:300px;}
+header .logo {background:#A0410D; height:150px; text-align: center;}
+header .logo h1{line-height:150px;}
+nav ul{list-style-type:none;float:right;}
+nav ul li {display:inline-block; }
+.headlines {margin-top:200px;}
+.headlines p{font-size:25px; color:#fff;}
 .main-container{margin-top:40px;}
 .banner { background:#ccc;}
+
+.main-content {padding:30px 0;}
+
+header.inner {height:100px;background: url("../img/bg.jpg") no-repeat scroll left -165px transparent;}
+header.inner .logo{height:100px;}
+header.inner .logo h1{line-height:100px;}

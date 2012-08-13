@@ -1,0 +1,21 @@
+<html>
+<head>
+	<script src="CodeMirror-2.32/lib/codemirror.js"></script>
+<link rel="stylesheet" href="CodeMirror-2.32/lib/codemirror.css">
+<script src="CodeMirror-2.32/mode/markdown/markdown.js"></script>
+</head>
+<body>
+	<div>
+		<script type="text/javascript">
+		function textChanged(editor, from, to, text, next) {
+			console.log("value is ", editor.getValue());
+			console.log("selection is ", editor.getCursor(false));
+		}
+			var myCodeMirror = CodeMirror(document.body, {
+				lineNumbers: true,
+				onChange: textChanged
+			});
+		</script>
+	</div>
+</body>
+</html>

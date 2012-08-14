@@ -4,10 +4,49 @@
 	<meta charset="utf-8">
 <link rel="stylesheet" href="CodeMirror-2.32/lib/codemirror.css">
 <script src="CodeMirror-2.32/mode/markdown/markdown.js"></script>
+<script src="js/libs/jquery-1.7.1.js"></script>
+
+<style type="text/css">
+
+#popup {
+	left:0;
+	top: 0;
+	position: absolute;
+	box-shadow:3px 3px 10px rgba(0,0,0,0.5);
+	max-height: 150px;
+	overflow: auto;
+	border-radius: 3px;
+	z-index: 1000;
+	display: none;
+}
+
+#popup ul, #popup ul li{margin: 0; padding: 0;}
+
+</style>
 </head>
+
 <body>
 	<div>
 		<script type="text/javascript">
+		var items = $('#popup ul li');
+		$(document).ready(function(){
+			items.live('click',function(){
+				console.log("clicked on " + $(this).text())
+				hidePopup();
+			});
+		});
+
+
+		function showPopup(x, y) {
+			$('#popup').css('display', "block");
+			$('#popup').css('left', x + "px");
+			$('#popup').css('top', (y + 15) + "px");
+		}
+
+		function hidePopup() {
+			$('#popup').css('display', "none");
+		}
+
 		function isWordBoundary(text) {
 			if (text == null || text == "" || text == " "
 				|| text == "\n" || text == "." || text == "\t" || text == "\r" || text == "\"" || text == "'"
@@ -53,11 +92,19 @@
 		}
 
 		function textChanged(editor, from, to, text, next) {
-			console.log(getWordUnderCaret(editor));
+			//console.log(getWordUnderCaret(editor));
 			// console.log("value is ", editor.getValue());
 			//console.log("cursor is ", editor.getCursor());
 			// console.log("last position ", editor.posFromIndex(-1));
 			//console.log("length is " + editor.getValue().length)
+
+			linech = getWordUnderCaret(editor).start;
+			xy = editor.charCoords(linech);
+
+			if (getWordUnderCaret(editor).word != "")
+				showPopup(xy.x, xy.y);
+			else
+				hidePopup()
 		}
 			var myCodeMirror = CodeMirror(document.body, {
 				lineNumbers: true,
@@ -65,6 +112,14 @@
 				lineWrapping: true
 			});
 		</script>
+		<div id="popup" style="display; none;">
+			<ul>
+				<li>first</li>
+				<li>second</li>
+				<li>third</li>
+			</ul>
 	</div>
+	</div>
+
 </body>
 </html>

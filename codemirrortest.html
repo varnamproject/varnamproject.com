@@ -45,15 +45,17 @@
 
 		$(myCodeMirror.getInputField()).typing({
    			 start: function (event, $elem) {
-        		console.log("started typing");
+        		if (event.charCode == 32) {
+        			hidePopup();
+        		}
     		 },
     		 stop: function (event, $elem) {
-    		 	console.log("stopped typing");
-
     		 	linech = getWordUnderCaret(myCodeMirror).start;
 				xy = myCodeMirror.charCoords(linech);
-				if (getWordUnderCaret(myCodeMirror).word != "")
+				if (getWordUnderCaret(myCodeMirror).word != "") {
+					console.log("sending server request");
 					showPopup(xy.x, xy.y);
+				}
 				else
 					hidePopup()
     		 },

@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="CodeMirror-2.32/lib/codemirror.css">
 <script src="CodeMirror-2.32/mode/markdown/markdown.js"></script>
 <script src="js/libs/jquery-1.7.1.js"></script>
+<script src="js/jquery.typing-0.2.0.min.js"></script>
 
 <style type="text/css">
 
@@ -34,6 +35,29 @@
 				console.log("clicked on " + $(this).text())
 				hidePopup();
 			});
+		});
+
+		var myCodeMirror = CodeMirror(document.body, {
+				lineNumbers: true,
+				onChange: textChanged,
+				lineWrapping: true
+			});
+
+		$(myCodeMirror.getInputField()).typing({
+   			 start: function (event, $elem) {
+        		console.log("started typing");
+    		 },
+    		 stop: function (event, $elem) {
+    		 	console.log("stopped typing");
+
+    		 	linech = getWordUnderCaret(myCodeMirror).start;
+				xy = myCodeMirror.charCoords(linech);
+				if (getWordUnderCaret(myCodeMirror).word != "")
+					showPopup(xy.x, xy.y);
+				else
+					hidePopup()
+    		 },
+    		 delay: 200
 		});
 
 
@@ -98,19 +122,15 @@
 			// console.log("last position ", editor.posFromIndex(-1));
 			//console.log("length is " + editor.getValue().length)
 
-			linech = getWordUnderCaret(editor).start;
-			xy = editor.charCoords(linech);
+			// linech = getWordUnderCaret(editor).start;
+			// xy = editor.charCoords(linech);
 
-			if (getWordUnderCaret(editor).word != "")
-				showPopup(xy.x, xy.y);
-			else
-				hidePopup()
+			// if (getWordUnderCaret(editor).word != "")
+			// 	showPopup(xy.x, xy.y);
+			// else
+			// 	hidePopup()
 		}
-			var myCodeMirror = CodeMirror(document.body, {
-				lineNumbers: true,
-				onChange: textChanged,
-				lineWrapping: true
-			});
+
 		</script>
 		<div id="popup" style="display; none;">
 			<ul>

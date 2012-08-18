@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="CodeMirror-2.32/lib/codemirror.css">
 <script src="CodeMirror-2.32/mode/markdown/markdown.js"></script>
 <script src="js/libs/jquery-1.7.1.js"></script>
+<script src="js/jquery.typing-0.2.0.min.js"></script>
 
 <style type="text/css">
 
@@ -34,6 +35,30 @@
 				console.log("clicked on " + $(this).text())
 				hidePopup();
 			});
+		});
+
+		var myCodeMirror = CodeMirror(document.body, {
+				lineNumbers: true,
+				onChange: textChanged,
+				lineWrapping: true
+			});
+
+		$(myCodeMirror.getInputField()).typing({
+   			 start: function (event, $elem) {
+        		if (event.charCode == 32) {
+        			hidePopup();
+        		}
+    		 },
+    		 stop: function (event, $elem) {
+    		 	linech = getWordUnderCaret(myCodeMirror).start;
+				xy = myCodeMirror.charCoords(linech);
+				var word = getWordUnderCaret(myCodeMirror).word;
+				if ( word != "")
+					showPopup(xy.x, xy.y,word);
+				else
+					hidePopup();
+    		 },
+    		 delay: 200
 		});
 
 
@@ -102,25 +127,16 @@
 		}
 
 		function textChanged(editor, from, to, text, next) {
-			//console.log(getWordUnderCaret(editor));
-			// console.log("value is ", editor.getValue());
-			//console.log("cursor is ", editor.getCursor());
-			// console.log("last position ", editor.posFromIndex(-1));
-			//console.log("length is " + editor.getValue().length)
+			// linech = getWordUnderCaret(editor).start;
+			// xy = editor.charCoords(linech);
+			// var word = getWordUnderCaret(editor).word;
+			// if ( word != "")
+			// 	showPopup(xy.x, xy.y,word);
+			// else
+			// 	hidePopup()
 
-			linech = getWordUnderCaret(editor).start;
-			xy = editor.charCoords(linech);
-			var word = getWordUnderCaret(editor).word;
-			if ( word != "")
-				showPopup(xy.x, xy.y,word);
-			else
-				hidePopup()
 		}
-			var myCodeMirror = CodeMirror(document.body, {
-				lineNumbers: true,
-				onChange: textChanged,
-				lineWrapping: true
-			});
+
 		</script>
 		<div id="popup" style="display; none;">
 			<select  multiple=true>

@@ -30,28 +30,41 @@
 	<div>
 		<script type="text/javascript">
 		var items = $('#popup select option');
+		isPop = false;
 		$(document).ready(function(){
 			items.live('click',function(){
 				console.log("clicked on " + $(this).text())
-				var w=getWordUnderCaret(myCodeMirror);
+				replaceContent($(this).text());
+			});
+		});
+		function replaceContent(text){
+			var w=getWordUnderCaret(myCodeMirror);
 				var linech = w.start;
 				var xy = myCodeMirror.charCoords(linech);
 				var word = w.word;
 				if ( word != ""){
-					myCodeMirror.replaceRange($(this).text(),linech,w.end);	
+					myCodeMirror.replaceRange(text,linech,w.end);	
 					myCodeMirror.focus();
 					myCodeMirror.setCursor(w.end);
 				}
 				hidePopup();
-			});
-		});
-
+		}
 		var myCodeMirror = CodeMirror(document.body, {
 				lineNumbers: true,
 				onChange: textChanged,
-				lineWrapping: true
-			});
+				lineWrapping: true,
+				 onKeyEvent : function (editor, e) {
+				 	event = $.event.fix(e);
+				 	if((event.keyCode === 13 || event.keyCode === 32)&& event.type == "keydown"){
+				 		var text=$("#popup select").find(":selected").text();
+				 		replaceContent(text);
 
+				 	}
+   				 }
+			});
+		// myCodeMirror.onKeyEvent(function(event) {
+		// 	console.log(event.keyCode);
+		// });
 		$(myCodeMirror.getInputField()).typing({
    			 start: function (event, $elem) {
         		if (event.charCode == 32) {
@@ -84,11 +97,12 @@
 					$('#popup > select').html('<option selected>'+ data+'</option>').css('width','10em');
 				}
 			});
-
+			isPop=true;
 		}
 
 		function hidePopup() {
 			$('#popup').css('display', "none");
+			isPop=false;
 		}
 
 		function isWordBoundary(text) {

@@ -29,10 +29,19 @@
 <body>
 	<div>
 		<script type="text/javascript">
-		var items = $('#popup ul li');
+		var items = $('#popup select option');
 		$(document).ready(function(){
 			items.live('click',function(){
 				console.log("clicked on " + $(this).text())
+				var w=getWordUnderCaret(myCodeMirror);
+				var linech = w.start;
+				var xy = myCodeMirror.charCoords(linech);
+				var word = w.word;
+				if ( word != ""){
+					myCodeMirror.replaceRange($(this).text(),linech,w.end);	
+					myCodeMirror.focus();
+					myCodeMirror.setCursor(w.end);
+				}
 				hidePopup();
 			});
 		});
@@ -50,8 +59,8 @@
         		}
     		 },
     		 stop: function (event, $elem) {
-    		 	linech = getWordUnderCaret(myCodeMirror).start;
-				xy = myCodeMirror.charCoords(linech);
+    		 	var linech = getWordUnderCaret(myCodeMirror).start;
+				var xy = myCodeMirror.charCoords(linech);
 				var word = getWordUnderCaret(myCodeMirror).word;
 				if ( word != "")
 					showPopup(xy.x, xy.y,word);

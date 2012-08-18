@@ -52,21 +52,30 @@
     		 stop: function (event, $elem) {
     		 	linech = getWordUnderCaret(myCodeMirror).start;
 				xy = myCodeMirror.charCoords(linech);
-				if (getWordUnderCaret(myCodeMirror).word != "") {
-					console.log("sending server request");
-					showPopup(xy.x, xy.y);
-				}
+				var word = getWordUnderCaret(myCodeMirror).word;
+				if ( word != "")
+					showPopup(xy.x, xy.y,word);
 				else
-					hidePopup()
+					hidePopup();
     		 },
     		 delay: 200
 		});
 
 
-		function showPopup(x, y) {
-			$('#popup').css('display', "block");
-			$('#popup').css('left', x + "px");
-			$('#popup').css('top', (y + 15) + "px");
+		function showPopup(x, y,word) {
+			$('#popup').css('display', "block")
+			.css('left', x + "px")
+			.css('top', (y + 15) + "px");
+
+			$.ajax({
+				url:'http://localhost:3003?input='+word+'&callback=?',
+				dataType:'html',
+				crossDomain: 'true',
+				success:function (data) {
+					$('#popup > select').html('<option selected>'+ data+'</option>').css('width','10em');
+				}
+			});
+
 		}
 
 		function hidePopup() {
@@ -118,28 +127,20 @@
 		}
 
 		function textChanged(editor, from, to, text, next) {
-			//console.log(getWordUnderCaret(editor));
-			// console.log("value is ", editor.getValue());
-			//console.log("cursor is ", editor.getCursor());
-			// console.log("last position ", editor.posFromIndex(-1));
-			//console.log("length is " + editor.getValue().length)
-
 			// linech = getWordUnderCaret(editor).start;
 			// xy = editor.charCoords(linech);
-
-			// if (getWordUnderCaret(editor).word != "")
-			// 	showPopup(xy.x, xy.y);
+			// var word = getWordUnderCaret(editor).word;
+			// if ( word != "")
+			// 	showPopup(xy.x, xy.y,word);
 			// else
 			// 	hidePopup()
+
 		}
 
 		</script>
 		<div id="popup" style="display; none;">
-			<ul>
-				<li>first</li>
-				<li>second</li>
-				<li>third</li>
-			</ul>
+			<select  multiple=true>
+			</select>
 	</div>
 	</div>
 

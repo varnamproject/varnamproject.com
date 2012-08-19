@@ -1,3 +1,4 @@
+//require('v8-profiler');
 var http = require('http'),
     path = require('path'),
     fs   = require('fs'),

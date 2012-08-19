@@ -6,7 +6,7 @@
 <script src="CodeMirror-2.32/mode/markdown/markdown.js"></script>
 <script src="js/libs/jquery-1.7.1.js"></script>
 <script src="js/jquery.typing-0.2.0.min.js"></script>
-
+<script src="js/showdown.js"></script>
 <style type="text/css">
 
 #popup {
@@ -20,6 +20,23 @@
 	z-index: 1000;
 	display: none;
 }
+div.CodeMirror.CodeMirror-wrap{
+	width:48%;
+	float:left;
+	border: #333 solid 1px;
+	height:100%;
+}
+div.preview{
+	width:48%;
+	float:right;
+	height:100%;
+	border: #333 solid 1px;
+	background-color: #e3eaed;
+	padding: 5px;
+}
+div.preview  p{
+	margin:1em 0;
+}
 
 #popup ul, #popup ul li{margin: 0; padding: 0;}
 
@@ -31,11 +48,13 @@
 		<script type="text/javascript">
 		var items = $('#popup select option');
 		isPop = false;
+		var converter = new Showdown.converter();
 		$(document).ready(function(){
 			items.live('click',function(){
 				console.log("clicked on " + $(this).text())
 				replaceContent($(this).text());
 			});
+
 		});
 		function replaceContent(text){
 			var w=getWordUnderCaret(myCodeMirror);
@@ -57,11 +76,14 @@
 				 	event = $.event.fix(e);
 				 	if((event.keyCode === 13 || event.keyCode === 32)&& event.type == "keydown" && isPop){
 				 		var text=$("#popup select").find(":selected").text();
-				 		console.log(text);
 				 		if(text !== undefined && text!== ''){
 				 			replaceContent(text);
 				 		}
 				 	}
+   				 },
+
+   				 onChange: function(){
+   				 	$('div.preview').html(converter.makeHtml(myCodeMirror.getValue()));
    				 }
 			});
 		// myCodeMirror.onKeyEvent(function(event) {
@@ -87,9 +109,6 @@
 
 
 		function showPopup(x, y,word) {
-			$('#popup').css('display', "block")
-			.css('left', x + "px")
-			.css('top', (y + 15) + "px");
 
 			$.ajax({
 				url:'http://localhost:3003?input='+word+'&callback=?',
@@ -97,9 +116,13 @@
 				crossDomain: 'true',
 				success:function (data) {
 					$('#popup > select').html('<option selected>'+ data+'</option>').css('width','10em');
+					$('#popup').css('display', "block")
+								.css('left', x + "px")
+								.css('top', (y + 15) + "px");
+					isPop=true;
 				}
 			});
-			isPop=true;
+
 		}
 
 		function hidePopup() {
@@ -166,8 +189,9 @@
 		<div id="popup" style="display; none;">
 			<select  multiple=true>
 			</select>
+		</div>
 	</div>
+	<div class='preview'>
 	</div>
-
 </body>
 </html>

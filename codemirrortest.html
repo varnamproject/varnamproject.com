@@ -24,15 +24,16 @@ div.CodeMirror.CodeMirror-wrap{
 	width:48%;
 	float:left;
 	border: #333 solid 1px;
-	height:100%;
+	height:95%;
 }
 div.preview{
 	width:48%;
 	float:right;
-	height:100%;
+	height:95%;
 	border: #333 solid 1px;
 	background-color: #e3eaed;
 	padding: 5px;
+	overflow: auto;
 }
 div.preview  p{
 	margin:1em 0;
@@ -109,9 +110,9 @@ div.preview  p{
 
 
 		function showPopup(x, y,word) {
-
+			var params = { 'input':word,'callback':'?' };
 			$.ajax({
-				url:'http://localhost:3003?input='+word+'&callback=?',
+				url:'http://localhost:3003?' + $.param(params),
 				dataType:'html',
 				crossDomain: 'true',
 				success:function (data) {

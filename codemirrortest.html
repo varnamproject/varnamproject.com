@@ -52,12 +52,11 @@ div.preview  p{
 		var converter = new Showdown.converter();
 		$(document).ready(function(){
 			items.live('click',function(){
-				console.log("clicked on " + $(this).text())
 				replaceContent($(this).text());
 			});
 
 		});
-		function replaceContent(text){
+		function replaceContent(text) {
 			var w=getWordUnderCaret(myCodeMirror);
 				var linech = w.start;
 				var xy = myCodeMirror.charCoords(linech);
@@ -65,8 +64,8 @@ div.preview  p{
 				if ( word != ""){
 					myCodeMirror.replaceRange(text,linech,w.end);
 					myCodeMirror.focus();
-					myCodeMirror.setCursor(w.end);
 				}
+
 				hidePopup();
 		}
 		var myCodeMirror = CodeMirror(document.body, {
@@ -77,7 +76,7 @@ div.preview  p{
 				 	event = $.event.fix(e);
 				 	if((event.keyCode === 13 || event.keyCode === 32)&& event.type == "keydown" && isPop){
 				 		var text=$("#popup select").find(":selected").text();
-				 		if(text !== undefined && text!== ''){
+				 		if(text !== undefined && text!== '') {
 				 			replaceContent(text);
 				 		}
 				 	}
@@ -87,16 +86,20 @@ div.preview  p{
    				 	$('div.preview').html(converter.makeHtml(myCodeMirror.getValue()));
    				 }
 			});
-		// myCodeMirror.onKeyEvent(function(event) {
-		// 	console.log(event.keyCode);
-		// });
+
 		$(myCodeMirror.getInputField()).typing({
    			 start: function (event, $elem) {
-        		if (event.charCode == 32) {
+   			 	event = $.event.fix(event);
+        		if (event.keyCode == 32 || event.keyCode == 27) {
         			hidePopup();
         		}
     		 },
     		 stop: function (event, $elem) {
+    		 	event = $.event.fix(event);
+    		 	if (event.keyCode == 32 || event.keyCode == 27) {
+        			return;
+        		}
+
     		 	var linech = getWordUnderCaret(myCodeMirror).start;
 				var xy = myCodeMirror.charCoords(linech);
 				var word = getWordUnderCaret(myCodeMirror).word;

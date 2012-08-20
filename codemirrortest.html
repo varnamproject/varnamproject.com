@@ -14,11 +14,13 @@
 	top: 0;
 	position: absolute;
 	box-shadow:3px 3px 10px rgba(0,0,0,0.5);
-	max-height: 150px;
 	overflow: auto;
 	border-radius: 3px;
 	z-index: 1000;
 	display: none;
+}
+#popup select{
+	 height: 100px;
 }
 div.CodeMirror.CodeMirror-wrap{
 	width:48%;
@@ -55,7 +57,19 @@ div.preview  p{
 				replaceContent($(this).text());
 			});
 
+			$("#popup select").keydown(function (event) {
+				if (event.keyCode == 13 || event.keyCode == 9) {
+					var text=$(this).find(":selected").text();
+				 		if(text !== undefined && text!== '') {
+				 				replaceContent(text);
+				 				event.preventDefault();
+				 			}
+				}
+			});
 		});
+
+
+
 		function replaceContent(text) {
 			var w=getWordUnderCaret(myCodeMirror);
 				var linech = w.start;
@@ -74,15 +88,21 @@ div.preview  p{
 				lineWrapping: true,
 				 onKeyEvent : function (editor, e) {
 				 	event = $.event.fix(e);
-				 	if((event.keyCode === 13 || event.keyCode === 32)&& event.type == "keydown" && isPop){
-				 		var text=$("#popup select").find(":selected").text();
-				 		if(text !== undefined && text!== '') {
-				 			replaceContent(text);
+				 	if((event.keyCode === 13 || event.keyCode === 32 || event.keyCode === 40) && event.type == "keydown" && isPop) {
+				 		if (event.keyCode === 40) {
+				 			// Down arrow
+				 			$("#popup select").focus();
+				 		}
+				 		else {
+				 			var text=$("#popup select").find(":selected").text();
+				 			if(text !== undefined && text!== '') {
+				 				replaceContent(text);
+				 			}
 				 		}
 				 	}
    				 },
 
-   				 onChange: function(){
+   				 onChange: function() {
    				 	$('div.preview').html(converter.makeHtml(myCodeMirror.getValue()));
    				 }
 			});
@@ -112,7 +132,7 @@ div.preview  p{
 		});
 
 
-		function showPopup(x, y,word) {
+		function showPopup(x, y, word) {
 			var params = { 'input':word,'callback':'?' };
 			$.ajax({
 				url:'http://localhost:3003?' + $.param(params),

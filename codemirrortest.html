@@ -63,7 +63,7 @@ div.preview  p{
 				var xy = myCodeMirror.charCoords(linech);
 				var word = w.word;
 				if ( word != ""){
-					myCodeMirror.replaceRange(text,linech,w.end);	
+					myCodeMirror.replaceRange(text,linech,w.end);
 					myCodeMirror.focus();
 					myCodeMirror.setCursor(w.end);
 				}
@@ -105,7 +105,7 @@ div.preview  p{
 				else
 					hidePopup();
     		 },
-    		 delay: 200
+    		 delay: 50
 		});
 
 
@@ -113,17 +113,27 @@ div.preview  p{
 			var params = { 'input':word,'callback':'?' };
 			$.ajax({
 				url:'http://localhost:3003?' + $.param(params),
-				dataType:'html',
+				dataType:'json',
 				crossDomain: 'true',
 				success:function (data) {
-					$('#popup > select').html('<option selected>'+ data+'</option>').css('width','10em');
+					html = "";
+					first = true;
+					data.forEach(function(d) {
+						if (first) {
+							html += '<option selected>'+ d+'</option>';
+							first = false;
+						}
+						else {
+							html += '<option>'+ d+'</option>';
+						}
+					});
+					$('#popup > select').html(html).css('width','10em');
 					$('#popup').css('display', "block")
 								.css('left', x + "px")
 								.css('top', (y + 15) + "px");
 					isPop=true;
 				}
 			});
-
 		}
 
 		function hidePopup() {

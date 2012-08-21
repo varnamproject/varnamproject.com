@@ -75,6 +75,12 @@ div.preview  p{
 					var text=$(this).find(":selected").text();
 				 		if(text !== undefined && text!== '') {
 				 				replaceContent(text);
+				 				if (event.keyCode == 13) {
+					 					event.preventDefault();
+					 					event.stopPropagation();
+					 					ignoreTextChange = true;
+					 					return true;
+					 				}
 				 			}
 				}
 			});

@@ -1,5 +1,12 @@
 NEEDS FIXING
 =============
-* Pressing any key sends request to server. Just do it only when something changes in the editor. Ignore all other key events.
+* Pressing any key sends request to server. Just do it only when something changes in the editor. Ignore all other key events. - Some part of this is done. Enter key still sends request which needs fixing.
 * Enter key is inserting the selected text and moving to next line. This is inconvenient. So process enter key if popup is not visible.
+* Move JS to a separate file.
+
+TO IMPLEMENT
+==============
 * Hooking reverse transliterate and transliterate while typing
+* Hooking learn
+* Language selection dropdown
+* Hooking language detection API call

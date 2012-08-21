@@ -1,12 +1,16 @@
 NEEDS FIXING
 =============
-* Pressing any key sends request to server. Just do it only when something changes in the editor. Ignore all other key events. - Some part of this is done. Enter key still sends request which needs fixing.
-* Enter key is inserting the selected text and moving to next line. This is inconvenient. So process enter key if popup is not visible.
+* Ctrl + Space on top of a word shows the popup
 * Move JS to a separate file.
 
-TO IMPLEMENT
+TO IMPLEMENT (in no order)
 ==============
+* Toggle English and native languages option
 * Hooking reverse transliterate and transliterate while typing
+* Option to toggle visibility of preview pane. Persist the preference based on cookies.
 * Hooking learn
 * Language selection dropdown
 * Hooking language detection API call
+* Add a save functionality
+* Add export to PDF
+* Add necessary help text about markdown syntax

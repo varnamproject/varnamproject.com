@@ -91,30 +91,41 @@ div.preview  p{
 				}
 				hidePopup();
 		}
+
+		var ignoreTextChange = false;
 		var myCodeMirror = CodeMirror(document.body, {
 				lineNumbers: true,
 				onChange: textChanged,
 				lineWrapping: true,
-				 onKeyEvent : function (editor, e) {
+				onKeyEvent : function (editor, e) {
 				 	event = $.event.fix(e);
+				 	if (event.type == "keydown")
+				 	{
+					 	ignoreTextChange = false;
+					 	if ((event.keyCode == 13 || event.keyCode == 32) && !isPop) {
+					 		// Enter/Space key pressed when popup is not active
+					 		// Mostly user tries to move text around. So don't send any request
+					 		// and show the popup
+					 		ignoreTextChange = true;
+					 	}
+					 	else if (event.keyCode == 27) {
+					 		hidePopup();
+					 	}
+					 	else if((event.keyCode === 13 || event.keyCode === 32 || event.keyCode === 40) && isPop) {
+					 		if (event.keyCode === 40) {
+					 			// Down arrow
+					 			$("#popup select").focus();
+					 		}
+					 		else {
+					 			var text=$("#popup select").find(":selected").text();
+					 			if(text !== undefined && text!== '') {
+					 				replaceContent(text);
+					 			}
 
-				 	if (event.keyCode == 27) {
-				 		hidePopup();
+					 		}
+					 	}
 				 	}
-				 	else if((event.keyCode === 13 || event.keyCode === 32 || event.keyCode === 40) && event.type == "keydown" && isPop) {
-				 		if (event.keyCode === 40) {
-				 			// Down arrow
-				 			$("#popup select").focus();
-				 		}
-				 		else {
-				 			var text=$("#popup select").find(":selected").text();
-				 			if(text !== undefined && text!== '') {
-				 				replaceContent(text);
-				 			}
-
-				 		}
-				 	}
-   				 },
+   				},
 
    				 onChange: textChanged
 			});
@@ -201,6 +212,11 @@ div.preview  p{
 		function textChanged(editor, from, to, text, next)
 		{
 			window.clearTimeout(timer);
+			$('div.preview').html(converter.makeHtml(myCodeMirror.getValue()));
+			if (ignoreTextChange) {
+				return;
+			}
+
 			timer = window.setTimeout(function() {
 				var linech = getWordUnderCaret(myCodeMirror).start;
 				var xy = myCodeMirror.charCoords(linech);
@@ -210,7 +226,6 @@ div.preview  p{
 				else
 					hidePopup();
 			}, 50);
-			$('div.preview').html(converter.makeHtml(myCodeMirror.getValue()));
 		}
 
 		</script>

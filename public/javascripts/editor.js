@@ -47,7 +47,7 @@
       var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('code'), {
         mode: 'markdown',
         lineNumbers: true,
-        matchBrackets: true,
+        lineWrapping: true,
         onChange: textChanged,
         onKeyEvent : function (editor, e) {
           event = $.event.fix(e);
@@ -86,7 +86,7 @@
           }
           }
       });
-      
+
       function showPopup(x, y, word) {
       var params = { 'text':word,'lang':'ml' };
       $.ajax({
@@ -169,7 +169,7 @@
     {
       window.clearTimeout(timer);
       updatePreview();
-     
+
       if (ignoreTextChange) {
         return;
       }
@@ -216,12 +216,12 @@
               $('#preview_div').css('margin-left','0');
           break;
         }
-      
+
       });
 
       $('.lang').click(function(){
         $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");
       });
 
-     
+
     })();

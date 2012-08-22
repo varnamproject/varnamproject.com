@@ -38,6 +38,8 @@
           myCodeMirror.focus();
         }
         hidePopup();
+        // Learning the text
+        $.post("learn", {text: text, lang: "ml"});
     }
 
     var ignoreTextChange = false;
@@ -77,8 +79,6 @@
                     return true;
                   }
 
-                  // Learning the text
-                  $.post("learn", {text: text, lang: "ml"});
                 }
 
               }

@@ -1,4 +1,4 @@
-header{background:url(../img/bg.jpg) no-repeat left top;height:300px;}
+header{background:url(../images/bg.jpg) no-repeat left top;height:300px;}
 header .logo {background:#A0410D; height:150px; text-align: center;}
 header .logo h1{line-height:150px;}
 nav ul{list-style-type:none;float:right;}
@@ -10,6 +10,6 @@ nav ul li {display:inline-block; }
 
 .main-content {padding:30px 0;}
 
-header.inner {height:100px;background: url("../img/bg.jpg") no-repeat scroll left -165px transparent;}
+header.inner {height:100px;background: url("../images/bg.jpg") no-repeat scroll left -165px transparent;}
 header.inner .logo{height:100px;}
 header.inner .logo h1{line-height:100px;}

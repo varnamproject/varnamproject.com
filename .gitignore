@@ -1,3 +1,5 @@
 *.*~
 *.DS_Store
-
+learnings.varnam*
+varnam.node
+node_modules/

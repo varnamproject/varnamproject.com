@@ -1,12 +1,13 @@
 <html>
 <head>
-	<script src="CodeMirror-2.32/lib/codemirror.js"></script>
-	<meta charset="utf-8">
-<link rel="stylesheet" href="CodeMirror-2.32/lib/codemirror.css">
-<script src="CodeMirror-2.32/mode/markdown/markdown.js"></script>
-<script src="js/libs/jquery-1.7.1.js"></script>
-<script src="js/jquery.typing-0.2.0.min.js"></script>
-<script src="js/showdown.js"></script>
+<meta charset="utf-8">
+<title>Varnam transliterator</title>
+<script src="javascripts/CodeMirror-2.32/lib/codemirror.js"></script>
+<link rel="stylesheet" href="javascripts/CodeMirror-2.32/lib/codemirror.css">
+<script src="javascripts/CodeMirror-2.32/mode/markdown/markdown.js"></script>
+<script src="javascripts/libs/jquery-1.7.1.js"></script>
+<script src="javascripts/jquery.typing-0.2.0.min.js"></script>
+<script src="javascripts/showdown.js"></script>
 <style type="text/css">
 body{
 	background: #E7EEF2;
@@ -67,7 +68,6 @@ div.preview  p{
 			});
 
 			$("#popup select").keydown(function (event) {
-				console.log(event);
 				if (event.keyCode == 27) {
 				 		hidePopup();
 				 	}
@@ -132,6 +132,9 @@ div.preview  p{
 					 					ignoreTextChange = true;
 					 					return true;
 					 				}
+
+					 				// Learning the text
+					 				$.post("learn", {text: text, lang: "ml"});
 					 			}
 
 					 		}
@@ -144,9 +147,9 @@ div.preview  p{
 
 
 		function showPopup(x, y, word) {
-			var params = { 'input':word,'callback':'?' };
+			var params = { 'text':word,'lang':'ml' };
 			$.ajax({
-				url:'http://localhost:3003?' + $.param(params),
+				url:'http://localhost:8080/tl?' + $.param(params),
 				dataType:'json',
 				crossDomain: 'true',
 				success:function (data) {

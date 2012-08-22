@@ -149,7 +149,7 @@ div.preview  p{
 		function showPopup(x, y, word) {
 			var params = { 'text':word,'lang':'ml' };
 			$.ajax({
-				url:'http://localhost:8080/tl?' + $.param(params),
+				url:'tl?' + $.param(params),
 				dataType:'json',
 				crossDomain: 'true',
 				success:function (data) {

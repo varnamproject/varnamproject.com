@@ -1,14 +1,14 @@
 NEEDS FIXING
 =============
 * Ctrl + Space on top of a word shows the popup
-* Move JS to a separate file.
+* Handle errors
+
 
 TO IMPLEMENT (in no order)
 ==============
 * Toggle English and native languages option
 * Hooking reverse transliterate and transliterate while typing
 * Option to toggle visibility of preview pane. Persist the preference based on cookies.
-* Hooking learn
 * Language selection dropdown
 * Hooking language detection API call
 * Add a save functionality

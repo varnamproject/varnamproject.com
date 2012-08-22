@@ -96,6 +96,8 @@ div.preview  p{
 					myCodeMirror.focus();
 				}
 				hidePopup();
+				// Learning the text
+				$.post("learn", {text: text, lang: "ml"});
 		}
 
 		var ignoreTextChange = false;
@@ -132,9 +134,6 @@ div.preview  p{
 					 					ignoreTextChange = true;
 					 					return true;
 					 				}
-
-					 				// Learning the text
-					 				$.post("learn", {text: text, lang: "ml"});
 					 			}
 
 					 		}

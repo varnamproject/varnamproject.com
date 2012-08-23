@@ -7,7 +7,6 @@ NEEDS FIXING
 
 TO IMPLEMENT (in no order)
 ==============
-* Toggle English and native languages option
 * Hooking reverse transliterate and transliterate while typing
 * Persist the preview preference based on cookies.
 * Hooking language detection API call

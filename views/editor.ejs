@@ -1,154 +1,156 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
 
-<title>Varnam transliterator</title>
-<script src="javascripts/libs/modernizr-2.5.3.min.js"></script>
-<script src="javascripts/CodeMirror-2.32/lib/codemirror.js"></script>
-<link rel="stylesheet" href="javascripts/CodeMirror-2.32/lib/codemirror.css">
-<link rel="stylesheet" href="stylesheets/bootstrap.css">
-<link rel="stylesheet" href="stylesheets/bootstrap-responsive.css">
+    <title>Varnam transliterator</title>
+    <script src="javascripts/libs/modernizr-2.5.3.min.js"></script>
+    <script src="javascripts/CodeMirror-2.32/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="javascripts/CodeMirror-2.32/lib/codemirror.css">
+    <link rel="stylesheet" href="stylesheets/bootstrap.css">
+    <link rel="stylesheet" href="stylesheets/bootstrap-responsive.css">
 
-<script src="javascripts/CodeMirror-2.32/mode/markdown/markdown.js"></script>
-<script src="javascripts/libs/jquery-1.7.1.js"></script>
-<script src="javascripts/jquery.typing-0.2.0.min.js"></script>
-<script src="javascripts/showdown.js"></script>
-<script src="javascripts/bootstrap.min.js"></script>
+    <script src="javascripts/CodeMirror-2.32/mode/markdown/markdown.js"></script>
+    <script src="javascripts/libs/jquery-1.7.1.js"></script>
+    <script src="javascripts/jquery.typing-0.2.0.min.js"></script>
+    <script src="javascripts/showdown.js"></script>
+    <script src="javascripts/bootstrap.min.js"></script>
 
 
-<style type="text/css">
-/*body{
-	background: url("./img/bg.png") repeat scroll 0 0 #EDEDED;
-	-webkit-font-smoothing: antialiased;
-	height: 100%
-}*/
-#popup {
-	left:0;
-	top: 0;
-	position: absolute;
-	box-shadow:3px 3px 10px rgba(0,0,0,0.5);
-	overflow: auto;
-	border-radius: 3px;
-	z-index: 1000;
-	display: none;
-}
-#popup select{
-	 height: 100px;
-   width: auto;
-}
-.CodeMirror{
+    <style type="text/css">
+      /*body{
+        background: url("./img/bg.png") repeat scroll 0 0 #EDEDED;
+        -webkit-font-smoothing: antialiased;
+        height: 100%
+      }*/
+      #popup {
+        left:0;
+        top: 0;
+        position: absolute;
+        box-shadow:3px 3px 10px rgba(0,0,0,0.5);
+        overflow: auto;
+        border-radius: 3px;
+        z-index: 1000;
+        display: none;
+      }
+      #popup select{
+        height: 100px;
+        width: auto;
+      }
+      .CodeMirror{
 
-	background:#EDEDED;
-	border: #333 solid 1px;
-}
- iframe {
-      /*	width: 100%;*/
-      display:block; width:100%;
+        background:#EDEDED;
+        border: #333 solid 1px;
+      }
+      iframe {
+        /*	width: 100%;*/
+        display:block; width:100%;
         height: 400px;
-    background-color: #fff;
-		/*padding: 5px;*/
-		overflow: auto;
-		/*margin-right:5px;*/
-		border: 1px solid black;
-		box-shadow: rgba(0, 0, 0, 0.75) 0 2px 5px;
-		border-radius: 3px;
-  }
+        background-color: #fff;
+        /*padding: 5px;*/
+        overflow: auto;
+        /*margin-right:5px;*/
+        border: 1px solid black;
+        box-shadow: rgba(0, 0, 0, 0.75) 0 2px 5px;
+        border-radius: 3px;
+      }
 
-.CodeMirror pre {
-    line-height: inherit;
-    color: inherit;
-}
-.CodeMirror-wrap pre {
-  word-break: normal;
- }
+      .CodeMirror pre {
+        line-height: inherit;
+        color: inherit;
+      }
+      .CodeMirror-wrap pre {
+        word-break: normal;
+      }
 
- .navbar h1{
- 	color:#000;
- 	margin-top: 5px;
-  display: inline;
- }
- .toolbar{
-  position: relative;
- }
- .caption{
-  position: absolute;
-  bottom: 17px;
-  left:155px;
- }
- .navbar .navbar-inner {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border-radius: 0 0 0 0;
-    box-shadow: none;
-    color: #000000;
-    padding-top: 10px;
-    text-shadow: none;
-}
-</style>
-</head>
+      .navbar h1{
+        color:#000;
+        margin-top: 5px;
+        display: inline;
+      }
+      .toolbar{
+        position: relative;
+      }
+      .caption{
+        position: absolute;
+        bottom: 17px;
+        left:155px;
+      }
+      .navbar .navbar-inner {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border-radius: 0 0 0 0;
+        box-shadow: none;
+        color: #000000;
+        padding-top: 10px;
+        text-shadow: none;
+      }
+    </style>
+  </head>
 
-<body>
   <body>
-  	<div class="navbar toolbar">
-  		   <div class="container-fluid ">
-       		  <div class="span2"> <h1>Varnam</h1></div><div class='span2 caption'> Transliterator</div>
-       		  <div class="btn-toolbar  pull-right">
-       		  	 <div class="btn-group">
-				    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" id='selected_lang'>
-				    English
-				    <span class="caret"></span>
-				    </a>
-				    <ul class="dropdown-menu">
-					    <li><a tabindex="-1" href="#" class='lang'>English</a></li>
-						<li><a tabindex="-1" href="#" class='lang'>Malayalam</a></li>
-						<li><a tabindex="-1" href="#" class='lang'>Tamil</a></li>
-				    </ul>
-				 </div>
-       	    <div class="btn-group" data-toggle="buttons-radio">
-       	   	<button type="button" class="btn" data-preview="editor">
-              <i class="icon-edit"> </i>
-            </button>
-			    	<button type="button" class="btn active" data-preview="both">
-              <i class="icon-edit"> </i><i class="icon-eye-open"></i>
-            </button>
-			    	<button type="button" class="btn" data-preview="preview"><i class="icon-eye-open"></i></button>
-		  	  	</div>
-		  	  </div>
-		</div>
-    </div>
-    <div class="container-fluid">
-	    <div class="row-fluid">
-		    <div class="span6" id='editor_div'>
-		  		 <textarea id='code' name='code'></textarea>
-		    </div>
-		    <div class="span6" id='preview_div'>
-		   		 <iframe id='preview'>
+    <body>
+      <div class="navbar toolbar">
+        <div class="container-fluid ">
+          <div class="span2"> <h1>Varnam</h1></div><div class='span2 caption'> Transliterator</div>
+          <div class="btn-toolbar  pull-right">
+            <div class="btn-group">
+              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" id='selected_lang' data-lang='ml'>
+                Malayalam
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a tabindex="-1" href="#" class='lang' data-lang='en'>English</a></li>
+                <li><a tabindex="-1" href="#" class='lang' data-lang='ml'>Malayalam</a></li>
+                <li><a tabindex="-1" href="#" class='lang' data-lang='tl'>Tamil</a></li>
+              </ul>
+            </div>
+            <div class="btn-group" data-toggle="buttons-radio">
+              <button type="button" class="btn" data-preview="editor" title='View Only Editor'>
+                <i class="icon-edit"> </i>
+              </button>
+              <button type="button" class="btn active" data-preview="both"  title='View Both'>
+                <i class="icon-edit"> </i><i class="icon-eye-open"></i>
+              </button>
+              <button type="button" class="btn" data-preview="preview"  title='View Only Preview'>
+                <i class="icon-eye-open"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div class="row-fluid">
+          <div class="span6" id='editor_div'>
+            <textarea id='code' name='code'></textarea>
+          </div>
+          <div class="span6" id='preview_div'>
+            <iframe id='preview'>
 
-           </iframe>
-		    </div>
-        <div class='span6' style='display:none' id='reserve'></div>
-	    </div>
-    </div>
-    <script src="javascripts/editor.js"></script>
-    <script type="text/javascript">
+            </iframe>
+          </div>
+          <div class='span6' style='display:none' id='reserve'></div>
+        </div>
+      </div>
+      <script src="javascripts/editor.js"></script>
+      <script type="text/javascript">
         jQuery.event.add(window, "resize", resizeFrame);
         function resizeFrame()
         {
-            var h = $(window).innerHeight();
-            var toolbarHeight = $(".navbar").height();
-            var editorHeight= h-toolbarHeight-30;
+          var h = $(window).innerHeight();
+          var toolbarHeight = $(".navbar").height();
+          var editorHeight= h-toolbarHeight-30;
 
-            $("#preview").css('height',editorHeight);
-            $(".CodeMirror").css('height',editorHeight);
-            $(".CodeMirror-scroll").css('height',editorHeight);
+          $("#preview").css('height',editorHeight);
+          $(".CodeMirror").css('height',editorHeight);
+          $(".CodeMirror-scroll").css('height',editorHeight);
         }
-      resizeFrame();
-    </script>
-    <div id="popup" style="display; none;">
-      <select  multiple=true>
-      </select>
-    </div>
+        resizeFrame();
+      </script>
+<div id="popup" style="display; none;">
+  <select  multiple=true>
+  </select>
+</div>
   </body>
 </html>
 

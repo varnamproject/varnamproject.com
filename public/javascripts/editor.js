@@ -88,7 +88,10 @@
       });
 
       function showPopup(x, y, word) {
-      var params = { 'text':word,'lang':'ml' };
+      var lang=$('#selected_lang').data('lang');
+      if(lang === 'en')
+        return;
+      var params = { 'text':word,'lang':lang };
       $.ajax({
         url:'tl?' + $.param(params),
         dataType:'json',
@@ -218,6 +221,7 @@
 
       $('.lang').click(function(){
         $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");
+        $('#selected_lang').data('lang',$(this).data('lang'));
       });
 
 

@@ -49,22 +49,22 @@
         lineNumbers: true,
         lineWrapping: true,
         onChange: textChanged,
-        onKeyEvent : function (editor, e) {
-          event = $.event.fix(e);
-          if (event.type == "keydown")
+           onKeyEvent : function (editor, e) {
+          var _event = $.event.fix(e);
+          if (_event.type == "keydown")
           {
             ignoreTextChange = false;
-            if ((event.keyCode == 13 || event.keyCode == 32) && !isPop) {
+            if ((_event.keyCode == 13 || _event.keyCode == 32) && !isPop) {
               // Enter/Space key pressed when popup is not active
               // Mostly user tries to move text around. So don't send any request
               // and show the popup
               ignoreTextChange = true;
             }
-            else if (event.keyCode == 27) {
+            else if (_event.keyCode == 27) {
               hidePopup();
             }
-            else if((event.keyCode === 13 || event.keyCode === 32 || event.keyCode === 40) && isPop) {
-              if (event.keyCode === 40) {
+            else if((_event.keyCode === 13 || _event.keyCode === 32 || _event.keyCode === 40) && isPop) {
+              if (_event.keyCode === 40) {
                 // Down arrow
                 $("#popup select").focus();
               }
@@ -72,9 +72,9 @@
                 var text=$("#popup select").find(":selected").text();
                 if(text !== undefined && text!== '') {
                   replaceContent(text);
-                  if (event.keyCode == 13) {
-                    event.preventDefault();
-                    event.stopPropagation();
+                  if (_event.keyCode == 13) {
+                    _event.preventDefault();
+                    _event.stopPropagation();
                     ignoreTextChange = true;
                     return true;
                   }
@@ -95,15 +95,12 @@
         crossDomain: 'true',
         success:function (data) {
           html = "";
-          first = true;
-          data.forEach(function(d) {
-            if (first) {
-              html += '<option selected>'+ d+'</option>';
-              first = false;
-            }
-            else {
-              html += '<option>'+ d+'</option>';
-            }
+          $.each(data, function(index, value) {
+            if(index === 0){
+             html += '<option selected>'+ value+'</option>';
+           }else{
+             html += '<option>'+ value+'</option>';
+           }
           });
           $('#popup > select').html(html).css('width','10em');
           $('#popup').css('display', "block")

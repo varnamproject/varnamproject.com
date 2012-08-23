@@ -36,6 +36,7 @@
 }
 #popup select{
 	 height: 100px;
+   width: auto;
 }
 .CodeMirror{
 
@@ -44,7 +45,7 @@
 }
  iframe {
       /*	width: 100%;*/
-      display:block; width:100%; 
+      display:block; width:100%;
         height: 400px;
     background-color: #fff;
 		/*padding: 5px;*/
@@ -57,10 +58,10 @@
 
 .CodeMirror pre {
     line-height: inherit;
-    color: inherit;	
-} 
+    color: inherit;
+}
 .CodeMirror-wrap pre {
-  word-break: normal; 
+  word-break: normal;
  }
 
  .navbar h1{
@@ -107,7 +108,7 @@
        	    <div class="btn-group" data-toggle="buttons-radio">
        	   	<button type="button" class="btn" data-preview="editor">
               <i class="icon-edit"> </i>
-            </button> 
+            </button>
 			    	<button type="button" class="btn active" data-preview="both">
               <i class="icon-edit"> </i><i class="icon-eye-open"></i>
             </button>
@@ -123,13 +124,13 @@
 		    </div>
 		    <div class="span6" id='preview_div'>
 		   		 <iframe id='preview'>
-             
+
            </iframe>
 		    </div>
         <div class='span6' style='display:none' id='reserve'></div>
 	    </div>
     </div>
-    <script src="javascripts/editor.js"></script>  
+    <script src="javascripts/editor.js"></script>
     <script type="text/javascript">
         jQuery.event.add(window, "resize", resizeFrame);
         function resizeFrame()
@@ -140,10 +141,10 @@
 
             $("#preview").css('height',editorHeight);
             $(".CodeMirror").css('height',editorHeight);
-            $(".CodeMirror-scroll").css('height',editorHeight);   
+            $(".CodeMirror-scroll").css('height',editorHeight);
         }
       resizeFrame();
-    </script> 
+    </script>
     <div id="popup" style="display; none;">
       <select  multiple=true>
       </select>
@@ -151,6 +152,6 @@
   </body>
 </html>
 
-	
+
 </body>
 </html>

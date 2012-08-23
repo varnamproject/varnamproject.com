@@ -1,5 +1,6 @@
 NEEDS FIXING
 =============
+* When putting a word brake character, we need to insert the selected text. Eg after typing press ".".
 * Ctrl + Space on top of a word shows the popup
 * Handle errors
 

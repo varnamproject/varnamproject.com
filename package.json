@@ -2,12 +2,16 @@
   "name": "application-name",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "start": "node app"
+
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
   },
   "dependencies": {
     "express": "3.0.0rc3",
     "ejs": "*",
     "stylus": "*"
-  }
+  },
+
+  "main": "server.js"
 }

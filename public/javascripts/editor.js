@@ -12,6 +12,7 @@
         $("#popup select").keydown(function (event) {
           if (event.keyCode == 27) {
               hidePopup();
+              myCodeMirror.focus();
             }
           else if (event.keyCode == 13 || event.keyCode == 9 || event.keyCode == 32) {
             var text=$(this).find(":selected").text();

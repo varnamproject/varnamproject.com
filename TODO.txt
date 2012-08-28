@@ -3,6 +3,10 @@ NEEDS FIXING
 * When putting a word brake character, we need to insert the selected text. Eg after typing press ".".
 * Ctrl + Space on top of a word shows the popup
 * Handle errors
+* Pressing ESC should focus back to the editor
+* Make sure popup will have the latest word always. Sometime some suggestions are missing when typing fast
+* Report connectivity problems and slow internet connections on top of the browser like stackoverflow messages
+* Handle suggestions box size properly. Currently for longer words, it appears incorrectly
 
 
 TO IMPLEMENT (in no order)

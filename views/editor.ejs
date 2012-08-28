@@ -24,19 +24,21 @@
         -webkit-font-smoothing: antialiased;
         height: 100%
       }*/
-      #popup {
-        left:0;
-        top: 0;
+      .CodeMirror-completions {
         position: absolute;
-        box-shadow:3px 3px 10px rgba(0,0,0,0.5);
-        overflow: auto;
-        border-radius: 3px;
-        z-index: 1000;
-        display: none;
+        z-index: 10;
+        overflow: hidden;
+        -webkit-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+        -moz-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+        box-shadow: 2px 3px 5px rgba(0,0,0,.2);
       }
-      #popup select{
-        height: 100px;
-        width: auto;
+      .CodeMirror-completions select {
+        background: #fafafa;
+        outline: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font-family: monospace;
       }
       .CodeMirror{
 
@@ -147,7 +149,7 @@
         }
         resizeFrame();
       </script>
-<div id="popup" style="display; none;">
+<div id="popup" class='CodeMirror-completions' style="display; none;">
   <select  multiple=true>
   </select>
 </div>

@@ -5,7 +5,6 @@ NEEDS FIXING
 * Handle errors
 * Make sure popup will have the latest word always. Sometime some suggestions are missing when typing fast
 * Report connectivity problems and slow internet connections on top of the browser like stackoverflow messages
-* Handle suggestions box size properly. Currently for longer words, it appears incorrectly
 
 
 TO IMPLEMENT (in no order)

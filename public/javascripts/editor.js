@@ -99,14 +99,18 @@
         crossDomain: 'true',
         success:function (data) {
           html = "";
+          var textWidth=0;
           $.each(data, function(index, value) {
             if(index === 0){
              html += '<option selected>'+ value+'</option>';
            }else{
              html += '<option>'+ value+'</option>';
            }
+           if(textWidth < value.length){
+              textWidth=value.length;
+           }
           });
-          $('#popup > select').html(html).css('width','10em');
+          $('#popup > select').html(html).css('width',(textWidth+2) + 'em');
           $('#popup').css('display', "block")
                 .css('left', x + "px")
                 .css('top', (y + 15) + "px");

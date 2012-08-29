@@ -193,10 +193,7 @@
 
       function updatePreview() {
         var previewFrame = document.getElementById('preview');
-        var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
-        preview.open();
-        preview.write(converter.makeHtml(myCodeMirror.getValue()));
-        preview.close();
+         previewFrame.contentWindow.document.body.innerHTML = converter.makeHtml(myCodeMirror.getValue());
       }
 
       $('button').click(function(){

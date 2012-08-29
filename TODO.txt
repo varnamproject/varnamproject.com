@@ -1,7 +1,6 @@
 NEEDS FIXING
 =============
 * When putting a word brake character, we need to insert the selected text. Eg after typing press ".".
-* When typing, page title changes which makes the whole page looks like flickering. This needs fixing.
 * Ctrl + Space & clicking on top of a word shows the popup
 * Handle errors
 * Make sure popup will have the latest word always. Sometime some suggestions are missing when typing fast

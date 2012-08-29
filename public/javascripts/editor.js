@@ -50,7 +50,12 @@
         lineNumbers: true,
         lineWrapping: true,
         onChange: textChanged,
-           onKeyEvent : function (editor, e) {
+        extraKeys: {
+          "Ctrl-Space": function(instance) {
+            showSuggestion();
+          }
+        },
+        onKeyEvent : function (editor, e) {
           var _event = $.event.fix(e);
           if (_event.type == "keydown")
           {
@@ -87,7 +92,15 @@
           }
           }
       });
-
+      function showSuggestion(){
+        var linech = getWordUnderCaret(myCodeMirror).start;
+        var xy = myCodeMirror.charCoords(linech);
+        var word = getWordUnderCaret(myCodeMirror).word;
+        if ( word != "")
+          showPopup(xy.x, xy.y,word);
+        else
+          hidePopup();
+      }
       function showPopup(x, y, word) {
       var lang=$('#selected_lang').data('lang');
       if(lang === 'en')
@@ -180,13 +193,7 @@
       }
 
       timer = window.setTimeout(function() {
-        var linech = getWordUnderCaret(myCodeMirror).start;
-        var xy = myCodeMirror.charCoords(linech);
-        var word = getWordUnderCaret(myCodeMirror).word;
-        if ( word != "")
-          showPopup(xy.x, xy.y,word);
-        else
-          hidePopup();
+        showSuggestion();
       }, 50);
     }
 

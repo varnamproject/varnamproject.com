@@ -1,7 +1,7 @@
 NEEDS FIXING
 =============
 * When putting a word brake character, we need to insert the selected text. Eg after typing press ".".
-* Ctrl + Space & clicking on top of a word shows the popup
+* clicking on top of a word shows the popup
 * If the preview is hidden, there is no need to update it every textchange.
 * Handle errors
 * Make sure popup will have the latest word always. Sometime some suggestions are missing when typing fast

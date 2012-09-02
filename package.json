@@ -11,7 +11,8 @@
     "varnam" : "*",
     "express": "3.0.0rc3",
     "ejs": "*",
-    "stylus": "*"
+    "stylus": "*",
+    "node-gyp": "*"
   },
 
   "main": "server.js"

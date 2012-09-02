@@ -12,3 +12,5 @@
 # prevent your application from stopping cleanly or starting at all.
 # Application start and stop is subject to different timeouts
 # throughout the system.
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$OPENSHIFT_REPO_DIR/node_modules/
+export PATH=$PATH:$OPENSHIFT_REPO_DIR/node_modules/node-gyp/bin/

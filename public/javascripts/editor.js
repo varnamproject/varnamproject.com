@@ -60,7 +60,14 @@
           if (_event.type == "keydown")
           {
             ignoreTextChange = false;
-            if ((_event.keyCode == 13 || _event.keyCode == 32) && !isPop) {
+
+            if (_event.keyCode == 190 && isPop) {
+              // Period key pressed. Need to implement properly for all word break characters
+              var text=$("#popup select").find(":selected").text();
+              if(text !== undefined && text!== '')
+                replaceContent(text);
+            }
+            else if ((_event.keyCode == 13 || _event.keyCode == 32) && !isPop) {
               // Enter/Space key pressed when popup is not active
               // Mostly user tries to move text around. So don't send any request
               // and show the popup

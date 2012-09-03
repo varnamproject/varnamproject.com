@@ -12,7 +12,6 @@
     "express": "3.0.0rc3",
     "ejs": "*",
     "stylus": "*",
-    "node-gyp": "*"
   },
   "scripts": {
    "start": "node server.js"

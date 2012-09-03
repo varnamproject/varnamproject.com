@@ -1,8 +1,17 @@
 {
   "name": "varnamproject",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
-
+  "author": {
+    "name": "OpenShift",
+    "email": "ramr@example.org",
+    "url":  "http://openshift.redhat.com/"
+  },
+  "homepage": "http://openshift.redhat.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://gitub.com/openshift/crankcase"
+  },
   "engines": {
     "node": ">= 0.6.0",
     "npm": ">= 1.0.0"

@@ -1,0 +1,6 @@
+{
+  "nodejs": {
+    "version": "v0.8.8",
+    "removeOld": false
+  }
+}

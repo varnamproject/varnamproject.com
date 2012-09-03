@@ -17,7 +17,6 @@
     "npm": ">= 1.0.0"
   },
   "dependencies": {
-    "varnam" : "*",
     "express": "3.0.0rc3",
     "ejs": "*",
     "stylus": "*"

@@ -110,12 +110,16 @@ function showSuggestion(){
     hidePopup();
 }
 
+request = undefined;
 function showPopup(x, y, word) {
   var lang=$('#selected_lang').data('lang');
   if(lang === 'en')
     return;
   var params = { 'text':word,'lang':lang };
-  $.ajax({
+  if (request != undefined)
+      request.abort();
+
+  request = $.ajax({
     url:'tl?' + $.param(params),
     dataType:'json',
     crossDomain: 'true',

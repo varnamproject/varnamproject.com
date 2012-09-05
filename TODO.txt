@@ -4,9 +4,8 @@ NEEDS FIXING
 * clicking on top of a word shows the popup
 * If the preview is hidden, there is no need to update it every textchange.
 * Handle errors
-* Make sure popup will have the latest word always. Sometime some suggestions are missing when typing fast
 * Report connectivity problems and slow internet connections on top of the browser like stackoverflow messages
-* When typing fast and we have no suggestions fetched so far from server, user pressing SPACE bar will see the english text inserted. We need to mimic google's transliterate here so that pressing space in the above condition, transliterates the text. For this, when pressing space, we need to detect this condition, record the {line, ch} values and replace that range when we have something available from server. 
+* When typing fast and we have no suggestions fetched so far from server, user pressing SPACE bar will see the english text inserted. We need to mimic google's transliterate here so that pressing space in the above condition, transliterates the text. For this, when pressing space, we need to detect this condition, record the {line, ch} values and replace that range when we have something available from server.
 
 
 TO IMPLEMENT (in no order)

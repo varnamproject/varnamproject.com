@@ -1,49 +1,49 @@
 (function(){
 
-      var delay;
-      var items = $('#popup select option');
-      isPop = false;
-      var converter = new Showdown.converter();
-      $(document).ready(function(){
-        items.live('click',function(){
-          replaceContent($(this).text());
-        });
+  var delay;
+  var items = $('#popup select option');
+  isPop = false;
+  var converter = new Showdown.converter();
+  $(document).ready(function(){
+    items.live('click',function(){
+      replaceContent($(this).text());
+    });
 
-        $("#popup select").keydown(function (event) {
-          if (event.keyCode == 27) {
-              hidePopup();
-              myCodeMirror.focus();
-            }
-          else if (event.keyCode == 13 || event.keyCode == 9 || event.keyCode == 32) {
-            var text=$(this).find(":selected").text();
-              if(text !== undefined && text!== '') {
-                  replaceContent(text);
-                  if (event.keyCode == 13) {
-                      event.preventDefault();
-                      event.stopPropagation();
-                      ignoreTextChange = true;
-                      return true;
-                    }
-                }
-          }
-        });
-      });
-
-      function replaceContent(text) {
-      var w=getWordUnderCaret(myCodeMirror);
-        var linech = w.start;
-        var xy = myCodeMirror.charCoords(linech);
-        var word = w.word;
-        if ( word != ""){
-          myCodeMirror.replaceRange(text,linech,w.end);
-          myCodeMirror.focus();
-        }
+    $("#popup select").keydown(function (event) {
+      if (event.keyCode == 27) {
         hidePopup();
+        myCodeMirror.focus();
+      }
+      else if (event.keyCode == 13 || event.keyCode == 9 || event.keyCode == 32) {
+        var text=$(this).find(":selected").text();
+        if(text !== undefined && text!== '') {
+          replaceContent(text);
+          if (event.keyCode == 13) {
+            event.preventDefault();
+            event.stopPropagation();
+            ignoreTextChange = true;
+            return true;
+          }
+        }
+      }
+    });
+  });
+
+  function replaceContent(text) {
+    var w=getWordUnderCaret(myCodeMirror);
+    var linech = w.start;
+    var xy = myCodeMirror.charCoords(linech);
+    var word = w.word;
+    if ( word != ""){
+      myCodeMirror.replaceRange(text,linech,w.end);
+      myCodeMirror.focus();
+    }
+    hidePopup();
         // Learning the text
         $.post("learn", {text: text, lang: "ml"});
-    }
+      }
 
-    var ignoreTextChange = false;
+      var ignoreTextChange = false;
       // Initialize CodeMirror editor with a nice html5 canvas demo.
       var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('code'), {
         mode: 'markdown',
@@ -97,62 +97,72 @@
               }
             }
           }
-          }
-      });
-      function showSuggestion(){
-        var linech = getWordUnderCaret(myCodeMirror).start;
-        var xy = myCodeMirror.charCoords(linech);
-        var word = getWordUnderCaret(myCodeMirror).word;
-        if ( word != "")
-          showPopup(xy.x, xy.y,word);
-        else
-          hidePopup();
-      }
-      function showPopup(x, y, word) {
-      var lang=$('#selected_lang').data('lang');
-      if(lang === 'en')
-        return;
-      var params = { 'text':word,'lang':lang };
-      $.ajax({
-        url:'tl?' + $.param(params),
-        dataType:'json',
-        crossDomain: 'true',
-        success:function (data) {
-          html = "";
-          var textWidth=0;
-          $.each(data, function(index, value) {
-            if(index === 0){
-             html += '<option selected>'+ value+'</option>';
-           }else{
-             html += '<option>'+ value+'</option>';
-           }
-           if(textWidth < value.length){
-              textWidth=value.length;
-           }
-          });
-          $('#popup > select').html(html).css('width',(textWidth+2) + 'em');
-          $('#popup').css('display', "block")
-                .css('left', x + "px")
-                .css('top', (y + 15) + "px");
-          isPop=true;
         }
       });
-    }
 
-    function hidePopup() {
-      $('#popup').css('display', "none");
-      isPop=false;
-    }
+function showSuggestion(){
+  var linech = getWordUnderCaret(myCodeMirror).start;
+  var xy = myCodeMirror.charCoords(linech);
+  var word = getWordUnderCaret(myCodeMirror).word;
+  if ( word != "")
+    showPopup(xy.x, xy.y,word);
+  else
+    hidePopup();
+}
 
-    function isWordBoundary(text) {
-      if (text == null || text == "" || text == " "
-        || text == "\n" || text == "." || text == "\t" || text == "\r" || text == "\"" || text == "'"
-        || text == "?" || text == "!" || text == "," || text == "(" || text == ")" || text == "\u000B" || text == "\u000C"
-        || text == "\u0085" || text == "\u2028" || text == "\u2029" || text == "\u000D" || text == "\u000A" || text == ";")
-        return true;
+function showPopup(x, y, word) {
+  var lang=$('#selected_lang').data('lang');
+  if(lang === 'en')
+    return;
+  var params = { 'text':word,'lang':lang };
+  $.ajax({
+    url:'tl?' + $.param(params),
+    dataType:'json',
+    crossDomain: 'true',
+    success:function (data) {
+      html = "";
+      var textWidth=0;
+      if (getWordUnderCaret(myCodeMirror).word == data.input)
+      {
+      $.each(data.result, function(index, value)
+      {
+        if(index === 0)
+        {
+           html += '<option selected>'+ value+'</option>';
+        }
+        else
+        {
+           html += '<option>'+ value+'</option>';
+        }
+        if(textWidth < value.length) {
+          textWidth=value.length;
+        }
 
-      return false;
+      $('#popup > select').html(html).css('width',(textWidth+2) + 'em');
+      $('#popup').css('display', "block")
+      .css('left', x + "px")
+      .css('top', (y + 15) + "px");
+      isPop=true;
+    });
     }
+    }
+  });
+}
+
+function hidePopup() {
+  $('#popup').css('display', "none");
+  isPop=false;
+}
+
+function isWordBoundary(text) {
+  if (text == null || text == "" || text == " "
+    || text == "\n" || text == "." || text == "\t" || text == "\r" || text == "\"" || text == "'"
+    || text == "?" || text == "!" || text == "," || text == "(" || text == ")" || text == "\u000B" || text == "\u000C"
+    || text == "\u0085" || text == "\u2028" || text == "\u2029" || text == "\u000D" || text == "\u000A" || text == ";")
+    return true;
+
+  return false;
+}
 
     // Finds the word under caret and returns an object {start: {:line, :ch}, end: {:line, :ch}, :word}
     function getWordUnderCaret(editor) {
@@ -205,40 +215,40 @@
     }
 
 
-      function updatePreview() {
-        var previewFrame = document.getElementById('preview');
-         previewFrame.contentWindow.document.body.innerHTML = converter.makeHtml(myCodeMirror.getValue());
+    function updatePreview() {
+      var previewFrame = document.getElementById('preview');
+      previewFrame.contentWindow.document.body.innerHTML = converter.makeHtml(myCodeMirror.getValue());
+    }
+
+    $('button').click(function(){
+
+      switch($(this).data('preview')){
+        case "editor":
+        $("#editor_div").removeClass("span6").addClass("span12");
+        $("#preview_div").hide();
+        $("#editor_div").show();
+        break;
+        case "both":
+        $("#editor_div").removeClass("span12").addClass("span6");
+        $("#preview_div").show();
+        $("#editor_div").show();
+        $('#preview_div').css('margin-left',$("#reserve").css('margin-left'));
+        $("#preview_div").removeClass("span12").addClass("span6");
+        break;
+        case "preview":
+        $("#editor_div").hide();
+        $("#preview_div").show();
+        $("#preview_div").removeClass("span6").addClass("span12");
+        $('#preview_div').css('margin-left','0');
+        break;
       }
 
-      $('button').click(function(){
+    });
 
-        switch($(this).data('preview')){
-          case "editor":
-              $("#editor_div").removeClass("span6").addClass("span12");
-              $("#preview_div").hide();
-              $("#editor_div").show();
-          break;
-          case "both":
-              $("#editor_div").removeClass("span12").addClass("span6");
-              $("#preview_div").show();
-              $("#editor_div").show();
-              $('#preview_div').css('margin-left',$("#reserve").css('margin-left'));
-              $("#preview_div").removeClass("span12").addClass("span6");
-          break;
-          case "preview":
-              $("#editor_div").hide();
-              $("#preview_div").show();
-              $("#preview_div").removeClass("span6").addClass("span12");
-              $('#preview_div').css('margin-left','0');
-          break;
-        }
-
-      });
-
-      $('.lang').click(function(){
-        $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");
-        $('#selected_lang').data('lang',$(this).data('lang'));
-      });
+    $('.lang').click(function(){
+      $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");
+      $('#selected_lang').data('lang',$(this).data('lang'));
+    });
 
 
-    })();
+  })();

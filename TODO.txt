@@ -1,5 +1,6 @@
 NEEDS FIXING
 =============
+* Localstorage is not done for language selection combo box. Language selection is not getting persisted
 * When putting a word brake character, we need to insert the selected text. Eg after typing press ".".
 * clicking on top of a word shows the popup
 * Handle errors

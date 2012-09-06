@@ -80,6 +80,9 @@
               if (_event.keyCode === 40) {
                 // Down arrow
                 $("#popup select").focus();
+                _event.preventDefault();
+                _event.stopPropagation();
+                return true;
               }
               else {
                 var text=$("#popup select").find(":selected").text();

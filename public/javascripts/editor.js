@@ -228,8 +228,8 @@ function isWordBoundary(text) {
     }
 
     $('button').click(function(){
-
-      switch($(this).data('preview')){
+      var mode=$(this).data('preview');
+       switch(mode){
         case "editor":
         $("#editor_div").removeClass("span6").addClass("span12");
         $("#preview_div").hide();
@@ -251,13 +251,32 @@ function isWordBoundary(text) {
         updatePreview();
         break;
       }
-
+      savePreviewMode(mode);
     });
 
+    function logglePreview(mode){
+      $("#"+mode+"Btn").click();
+    }
     $('.lang').click(function(){
       $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");
       $('#selected_lang').data('lang',$(this).data('lang'));
     });
+    function savePreviewMode(mode){
+       if(typeof(Storage)=="undefined"){
+        return;
+      }
+      localStorage.previewMode=mode;
+    }
+    function initPreviewMode(){
+      if(typeof(Storage)=="undefined"){
+        return;
+      }
+      var mode = localStorage.previewMode || "both";
+      logglePreview(mode);
+    }
 
+   $(function() {
+      initPreviewMode();
+   });
 
   })();

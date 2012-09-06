@@ -108,13 +108,13 @@
               </ul>
             </div>
             <div class="btn-group" data-toggle="buttons-radio">
-              <button type="button" class="btn" data-preview="editor" title='View Only Editor'>
+              <button type="button" class="btn" data-preview="editor" title='View Only Editor' id='editorBtn'>
                 <i class="icon-edit"> </i>
               </button>
-              <button type="button" class="btn active" data-preview="both"  title='View Both'>
+              <button type="button" class="btn active" data-preview="both"  title='View Both' id='bothBtn'>
                 <i class="icon-edit"> </i><i class="icon-eye-open"></i>
               </button>
-              <button type="button" class="btn" data-preview="preview"  title='View Only Preview'>
+              <button type="button" class="btn" data-preview="preview"  title='View Only Preview' id='previewBtn'>
                 <i class="icon-eye-open"></i>
               </button>
             </div>
@@ -149,7 +149,7 @@
         }
         resizeFrame();
       </script>
-<div id="popup" class='CodeMirror-completions' style="display; none;">
+<div id="popup" class='CodeMirror-completions' style="display: none;">
   <select  multiple=true>
   </select>
 </div>

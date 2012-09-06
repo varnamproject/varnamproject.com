@@ -215,7 +215,7 @@ function isWordBoundary(text) {
 
       timer = window.setTimeout(function() {
         showSuggestion();
-      }, 50);
+      }, 10);
     }
 
 

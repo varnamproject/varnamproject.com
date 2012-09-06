@@ -220,6 +220,9 @@ function isWordBoundary(text) {
 
 
     function updatePreview() {
+      if(!$("#preview_div").is(':visible')){
+        return;
+      }
       var previewFrame = document.getElementById('preview');
       previewFrame.contentWindow.document.body.innerHTML = converter.makeHtml(myCodeMirror.getValue());
     }
@@ -238,12 +241,14 @@ function isWordBoundary(text) {
         $("#editor_div").show();
         $('#preview_div').css('margin-left',$("#reserve").css('margin-left'));
         $("#preview_div").removeClass("span12").addClass("span6");
+        updatePreview();
         break;
         case "preview":
         $("#editor_div").hide();
         $("#preview_div").show();
         $("#preview_div").removeClass("span6").addClass("span12");
         $('#preview_div').css('margin-left','0');
+        updatePreview();
         break;
       }
 

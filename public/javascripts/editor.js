@@ -40,7 +40,11 @@
     }
     hidePopup();
         // Learning the text
-        $.post("learn", {text: text, lang: "ml"});
+        var lang=$('#selected_lang').data('lang');
+        if(lang == undefined || lang === 'en')
+            return;
+
+        $.post("learn", {text: text, lang: lang});
       }
 
       var ignoreTextChange = false;

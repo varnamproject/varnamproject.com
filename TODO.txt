@@ -4,7 +4,6 @@ NEEDS FIXING
 * When writing big paragraphs, suggestion window is shown in wrong locations.
 * Selecting a single word selects the whole text. Tested only on OSX.
 * When typing reaches end of page, there won't be enough room to show suggestions. So some part of the suggestion window will be hidden. If possible, detect this condition and show the suggestion window to the top of the word.
-* Localstorage is not done for language selection combo box. Language selection is not getting persisted
 * When putting a word brake character, we need to insert the selected text. Eg after typing press ".".
 * clicking on top of a word shows the popup
 * Handle errors

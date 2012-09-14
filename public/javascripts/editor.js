@@ -264,16 +264,30 @@ function isWordBoundary(text) {
     function logglePreview(mode){
       $("#"+mode+"Btn").click();
     }
-    $('.lang').click(function(){
+    $('.lang').click(function() {
       $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");
       $('#selected_lang').data('lang',$(this).data('lang'));
+      if(typeof(Storage)=="undefined"){
+        return;
+      }
+      localStorage.language = JSON.stringify({name: $(this).text(), code: $(this).data('lang')});
     });
+
+    function selectLastUsedLanguage() {
+      if (typeof(Storage) != "undefined" && localStorage.language) {
+        var data = JSON.parse(localStorage.language);
+        $('.dropdown-toggle').html(data.name + " <span class='caret'></span>");
+        $('#selected_lang').data('lang', data.code);
+      }
+    }
+
     function savePreviewMode(mode){
        if(typeof(Storage)=="undefined"){
         return;
       }
       localStorage.previewMode=mode;
     }
+
     function initPreviewMode(){
       if(typeof(Storage)=="undefined"){
         return;
@@ -284,6 +298,7 @@ function isWordBoundary(text) {
 
    $(function() {
       initPreviewMode();
+      selectLastUsedLanguage();
    });
 
   })();

@@ -84,6 +84,20 @@
         onKeyEvent:processEditorKeyEvent
     });
 
+    window.onbeforeunload = function (e) {
+        e = e || window.event;
+
+        if ($.trim(myCodeMirror.getValue()) != "") {
+            // For IE and Firefox prior to version 4
+            if (e) {
+                e.returnValue = 'You will loose the text. Are you sure?';
+            }
+
+            // For Safari
+            return 'You will loose the text. Are you sure?';
+        }
+    };
+
     function processWordBreaks() {
         var text = $("#popup select").find(":selected").text();
         if (text !== undefined && text !== '') replaceContent(text);
@@ -167,7 +181,7 @@
                         if (textWidth < value.length) {
                             textWidth = value.length;
                         }
-                        $(selectList).html(html).css('width', (textWidth + 2) + 'em');  
+                        $(selectList).html(html).css('width', (textWidth + 2) + 'em');
                     });
                     $(selectList).html(html).css('height', (data.result.length+1) + 'em');
                     $('#popup').css('display', "block").css('left', x + "px").css('top', (y + 15) + "px");

@@ -1,6 +1,5 @@
 NEEDS FIXING
 =============
-* When moving away from the page and the text editor has contents, confirm the user that changes will be lost.
 * When writing big paragraphs, suggestion window is shown in wrong locations.
 * Selecting a single word selects the whole text. Tested only on OSX.
 * When typing reaches end of page, there won't be enough room to show suggestions. So some part of the suggestion window will be hidden. If possible, detect this condition and show the suggestion window to the top of the word.

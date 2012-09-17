@@ -156,6 +156,7 @@
             success:function (data) {
                 html = "";
                 var textWidth = 0;
+                var selectList=$('#popup > select')
                 if (getWordUnderCaret(myCodeMirror).word == data.input) {
                     $.each(data.result, function (index, value) {
                         if (index === 0) {
@@ -166,10 +167,11 @@
                         if (textWidth < value.length) {
                             textWidth = value.length;
                         }
-                        $('#popup > select').html(html).css('width', (textWidth + 2) + 'em');
-                        $('#popup').css('display', "block").css('left', x + "px").css('top', (y + 15) + "px");
-                        isSuggestionDisplayed = true;
+                        $(selectList).html(html).css('width', (textWidth + 2) + 'em');  
                     });
+                    $(selectList).html(html).css('height', (data.result.length+1) + 'em');
+                    $('#popup').css('display', "block").css('left', x + "px").css('top', (y + 15) + "px");
+                    isSuggestionDisplayed = true;
                 }
             }
         });

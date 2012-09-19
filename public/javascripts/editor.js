@@ -12,8 +12,17 @@
             TAB:9,
             SPACE:32,
             PERIOD:190,
-            DOWN_ARROW:40
-         };
+            DOWN_ARROW:40,
+            QUESTION:191,
+            EXCLAMATION:49,
+            COMMA:188,
+            LEFT_BRACKET:57,
+            RIGHT_BRACKET:48,
+            SEMICOLON:59
+         },
+         WORD_BREAK_CHARS = [KEYS.ENTER, KEYS.TAB, KEYS.SPACE,
+                             KEYS.PERIOD, KEYS.QUESTION, KEYS.EXCLAMATION, KEYS.COMMA,
+                             KEYS.LEFT_BRACKET, KEYS.RIGHT_BRACKET, KEYS.SEMICOLON];
 
     $(document).ready(function () {
         initialEventSetup();
@@ -31,7 +40,8 @@
             if (event.keyCode === KEYS.ESCAPE) {
                 hidePopup();
                 myCodeMirror.focus();
-            } else if (isWordBreakKey(event.keyCode)) {
+            }
+            else if (isWordBreakKey(event.keyCode)) {
                 var text = $(this).find(":selected").text();
                 if (text !== undefined && text !== '') {
                     replaceContent(text);
@@ -44,7 +54,6 @@
                 }
             }
         });
-
     }
 
     function replaceContent(text) {
@@ -104,7 +113,8 @@
     }
 
     function isWordBreakKey(keyCode) {
-        if (keyCode === KEYS.ENTER || keyCode === KEYS.SPACE || keyCode === KEYS.TAB) {
+        var exists = $.inArray(keyCode, WORD_BREAK_CHARS) == -1 ? false : true;
+        if (exists) {
             return true;
         }
         return false;
@@ -123,14 +133,13 @@
         }
 
         if (isSuggestionDisplayed) {
-            if (_event.keyCode == KEYS.PERIOD) {
-                processWordBreaks();
-            } else if (_event.keyCode === KEYS.DOWN_ARROW) {
+            if (_event.keyCode === KEYS.DOWN_ARROW) {
                 $("#popup select").focus();
                 _event.preventDefault();
                 _event.stopPropagation();
                 return true;
-            } else if (isWordBreakKey(_event.keyCode)) {
+            }
+            else if (isWordBreakKey(_event.keyCode)) {
                 processWordBreaks();
                 if (_event.keyCode === KEYS.ENTER) {
                     _event.preventDefault();
@@ -139,8 +148,8 @@
                     return true;
                 }
             }
-
-        } else if (isWordBreakKey(_event.keyCode)) {
+        }
+        else if (isWordBreakKey(_event.keyCode)) {
             ignoreTextChange = true;
         }
     }
@@ -152,7 +161,6 @@
         if (word != "") showPopup(xy.x, xy.y, word);
         else hidePopup();
     }
-
 
     function showPopup(x, y, word) {
         var lang = $('#selected_lang').data('lang');
@@ -197,13 +205,17 @@
     }
 
     function isWordBoundary(text) {
-        if (text == null || text == "" || text == " " || text == "\n" || text == "." || text == "\t" || text == "\r" || text == "\"" || text == "'" || text == "?" || text == "!" || text == "," || text == "(" || text == ")" || text == "\u000B" || text == "\u000C" || text == "\u0085" || text == "\u2028" || text == "\u2029" || text == "\u000D" || text == "\u000A" || text == ";") return true;
+        if (text == null || text == "" || text == " " || text == "\n" || text == "." || text == "\t" ||
+            text == "\r" || text == "\"" || text == "'" || text == "?" || text == "!" || text == "," ||
+            text == "(" || text == ")" || text == "\u000B" || text == "\u000C" || text == "\u0085" ||
+            text == "\u2028" || text == "\u2029" || text == "\u000D" || text == "\u000A" || text == ";") {
+            return true;
+        }
 
         return false;
     }
 
     // Finds the word under caret and returns an object {start: {:line, :ch}, end: {:line, :ch}, :word}
-
     function getWordUnderCaret(editor) {
         var insertionPoint = editor.getCursor(); //{line, ch} object
         var startAt = 0;

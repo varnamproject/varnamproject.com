@@ -192,7 +192,11 @@
                         $(selectList).html(html).css('width', (textWidth + 2) + 'em');
                     });
                     $(selectList).html(html).css('height', (data.result.length+1) + 'em');
-                    $('#popup').css('display', "block").css('left', x + "px").css('top', (y + 15) + "px");
+                    var popupHeight=$('#popup').css('display', "block").css('left', x + "px").css('top', (y + 15) + "px").height();
+                    var editor = $('.CodeMirror');
+                    if((y+popupHeight) > editor.position().top+editor.innerHeight()){
+                      $('#popup').css('top',(y-popupHeight)+'px');
+                    }
                     isSuggestionDisplayed = true;
                 }
             }

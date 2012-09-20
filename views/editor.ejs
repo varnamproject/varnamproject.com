@@ -79,6 +79,7 @@
         bottom: 17px;
         left:155px;
       }
+
       .navbar .navbar-inner {
         background: none repeat scroll 0 0 #FFFFFF;
         border-radius: 0 0 0 0;
@@ -87,6 +88,21 @@
         padding-top: 10px;
         text-shadow: none;
       }
+
+      .networkerror {
+        top: 0;
+        width: 510px;
+        height: 25px;
+        background-color: #C65A1C;
+        text-align: center;
+        font-size: 15pt;
+        padding-top: 5px;
+        font-weight: bolder;
+        color: black;
+        display: none;
+        margin: 0 auto;
+      }
+
     </style>
   </head>
 
@@ -94,6 +110,12 @@
     <body>
       <div class="navbar toolbar">
         <div class="container-fluid ">
+          <div id="network-error" class="networkerror">
+            Your Internet connection might have interrupted
+            <span>
+              <img id="network-error-close" src="images/close_button.gif" />
+            </span>
+          </div>
           <div class="span2"> <h1>Varnam</h1></div><div class='span2 caption'> Transliterator</div>
           <div class="btn-toolbar  pull-right">
             <div class="btn-group">

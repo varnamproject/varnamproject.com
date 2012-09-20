@@ -204,10 +204,15 @@
                         $(selectList).html(html).css('width', (textWidth + 2) + 'em');
                     });
                     $(selectList).html(html).css('height', (data.result.length+1) + 'em');
-                    var popupHeight=$('#popup').css('display', "block").css('left', x + "px").css('top', (y + 15) + "px").height();
+                    var popup=$('#popup').css('display', "block").css('left', x + "px").css('top', (y + 15) + "px");
+                    var popupHeight = popup.height();
+                    var popupWidth = popup.width();
                     var editor = $('.CodeMirror');
                     if((y+popupHeight) > editor.position().top+editor.innerHeight()){
-                      $('#popup').css('top',(y-popupHeight)+'px');
+                      popup.css('top',(y-popupHeight)+'px');
+                    }
+                    if((x+popupWidth) > editor.position().left + editor.innerWidth()){
+                        popup.css('left',(x-popupWidth)+'px');
                     }
                     isSuggestionDisplayed = true;
                 }

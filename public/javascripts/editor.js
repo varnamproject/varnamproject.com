@@ -32,7 +32,7 @@
 
     function initialEventSetup() {
         suggestedItem.live('click', function () {
-            replaceContent($(this).text());
+            replaceWordUnderCaret($(this).text());
             ignoreTextChange = true;
         });
 
@@ -44,7 +44,7 @@
             else if (isWordBreakKey(event.keyCode)) {
                 var text = $(this).find(":selected").text();
                 if (text !== undefined && text !== '') {
-                    replaceContent(text);
+                    replaceWordUnderCaret(text);
                     if (event.keyCode == KEYS.ENTER) {
                         event.preventDefault();
                         event.stopPropagation();
@@ -56,7 +56,8 @@
         });
     }
 
-    function replaceContent(text) {
+    var to_replace_when_response_available = {};
+    function replaceWordUnderCaret(text) {
         var w = getWordUnderCaret(myCodeMirror);
         var linech = w.start;
         var xy = myCodeMirror.charCoords(linech);
@@ -109,7 +110,7 @@
 
     function processWordBreaks() {
         var text = $("#popup select").find(":selected").text();
-        if (text !== undefined && text !== '') replaceContent(text);
+        if (text !== undefined && text !== '') replaceWordUnderCaret(text);
     }
 
     function isWordBreakKey(keyCode) {
@@ -149,16 +150,20 @@
                 }
             }
         }
+        else if (_event.keyCode == KEYS.SPACE) {
+            ignoreTextChange = true;
+            var word = getWordUnderCaret(myCodeMirror);
+            to_replace_when_response_available[word.word] = word;
+        }
         else if (isWordBreakKey(_event.keyCode)) {
             ignoreTextChange = true;
         }
     }
 
     function showSuggestion() {
-        var linech = getWordUnderCaret(myCodeMirror).start;
-        var xy = myCodeMirror.charCoords(linech);
-        var word = getWordUnderCaret(myCodeMirror).word;
-        if (word != "") showPopup(xy.x, xy.y, word);
+        var wordUnderCaret = getWordUnderCaret(myCodeMirror);
+        var xy = myCodeMirror.charCoords(wordUnderCaret.start);
+        if (wordUnderCaret.word != "") showPopup(xy.x, xy.y, wordUnderCaret.word);
         else hidePopup();
     }
 
@@ -178,9 +183,9 @@
             'text':word,
             'lang':lang
         };
-        if (request != undefined) request.abort();
 
         show_error = false;
+        hidePopup();
         request = $.ajax({
             url:'tl?' + $.param(params),
             dataType:'json',
@@ -189,8 +194,16 @@
                 toggleErrorMessageVisibility(false);
                 html = "";
                 var textWidth = 0;
-                var selectList=$('#popup > select')
-                if (getWordUnderCaret(myCodeMirror).word == data.input) {
+                var selectList = $('#popup > select')
+                if (to_replace_when_response_available[data.input] != undefined) {
+                    wordToReplace = to_replace_when_response_available[data.input];
+                    actualValueAtThatPos = myCodeMirror.getRange(wordToReplace.start, wordToReplace.end);
+                    if (actualValueAtThatPos == data.input) {
+                        myCodeMirror.replaceRange (data.result[0], wordToReplace.start, wordToReplace.end);
+                    }
+                    delete to_replace_when_response_available[data.input];
+                }
+                else if (getWordUnderCaret(myCodeMirror).word == data.input) {
                     $.each(data.result, function (index, value) {
                         if (index === 0) {
                             html += '<option selected>' + value + '</option>';

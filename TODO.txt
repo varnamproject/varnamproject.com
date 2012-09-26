@@ -1,6 +1,5 @@
 NEEDS FIXING
 =============
-* JQuery update to latest version
 * Need to refactor the showPopup() function. It is not actually showing the popup, but does a lot...
 * clicking on top of a word shows the popup
 * when editing already written word, see if we have a english word available. If yes, replace it. Currently it is not happening.
@@ -9,10 +8,11 @@ NEEDS FIXING
 * Handle errors
 
 
-TO IMPLEMENT (in no order)
+TO IMPLEMENT (ordered based on priority)
 ==============
-* Hooking reverse transliterate and transliterate while typing
+* Add export to PDF
+* Add Bold, Italics buttons.
+* Hooking reverse transliterate and transliterate while typing - Need to rethink
 * Hooking language detection API call
 * Add a save functionality
-* Add export to PDF
 * Add necessary help text about markdown syntax

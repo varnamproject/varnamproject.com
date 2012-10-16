@@ -86,17 +86,13 @@
       }
 
       .networkerror {
-        top: 0;
-        width: 510px;
-        height: 25px;
-        background-color: #C65A1C;
-        text-align: center;
-        font-size: 15pt;
-        padding-top: 5px;
-        font-weight: bolder;
-        color: black;
+        z-index: 9;
+        position:fixed;
+        top:0px;
+        left:18%;
         display: none;
-        margin: 0 auto;
+        margin:0 auto;
+        width:60%;
       }
 
     </style>
@@ -104,14 +100,13 @@
 
   <body>
     <body>
+       <div id="network-error" class="alert alert-error networkerror">
+            Your Internet connection might have interrupted
+           <button type="button" class="close" id="network-error-close">×</button>
+          </div>
       <div class="navbar toolbar">
         <div class="container-fluid ">
-          <div id="network-error" class="networkerror">
-            Your Internet connection might have interrupted
-            <span>
-              <img id="network-error-close" src="images/close_button.gif" />
-            </span>
-          </div>
+         
           <div class="span2"> <h1>Varnam</h1></div><div class='span2 caption'> Transliterator</div>
           <div class="btn-toolbar  pull-right">
             <div class="btn-group">

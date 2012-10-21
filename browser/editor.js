@@ -188,7 +188,7 @@
         hidePopup();
         request = $.ajax({
             url:'tl?' + $.param(params),
-            dataType:'json',
+            dataType:'jsonp',
             crossDomain:'true',
             success:function (data) {
                 toggleErrorMessageVisibility(false);

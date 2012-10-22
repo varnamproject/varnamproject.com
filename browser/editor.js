@@ -3,7 +3,6 @@
         isSuggestionDisplayed = false,
         converter = new Showdown.converter(),
         ignoreTextChange = false,
-        request = undefined,
         timer,
         suggestionList = "#popup select",
         KEYS = {
@@ -72,7 +71,7 @@
 
     function learnText(text) {
         var lang = $('#selected_lang').data('lang');
-        if (lang == undefined || lang === 'en') return;
+        if (lang === undefined || lang === 'en') return;
 
         $.post("learn", {
             text:text,
@@ -130,7 +129,7 @@
 
         if (_event.keyCode == KEYS.ESCAPE) {
             hidePopup();
-            return
+            return;
         }
 
         if (isSuggestionDisplayed) {
@@ -194,7 +193,7 @@
                 toggleErrorMessageVisibility(false);
                 html = "";
                 var textWidth = 0;
-                var selectList = $('#popup > select')
+                var selectList = $('#popup > select');
                 if (to_replace_when_response_available[data.input] != undefined) {
                     wordToReplace = to_replace_when_response_available[data.input];
                     actualValueAtThatPos = myCodeMirror.getRange(wordToReplace.start, wordToReplace.end);
@@ -247,7 +246,7 @@
     }
 
     function isWordBoundary(text) {
-        if (text == null || text == "" || text == " " || text == "\n" || text == "." || text == "\t" ||
+        if (text === null || text == "" || text == " " || text == "\n" || text == "." || text == "\t" ||
             text == "\r" || text == "\"" || text == "'" || text == "?" || text == "!" || text == "," ||
             text == "(" || text == ")" || text == "\u000B" || text == "\u000C" || text == "\u0085" ||
             text == "\u2028" || text == "\u2029" || text == "\u000D" || text == "\u000A" || text == ";") {
@@ -266,7 +265,7 @@
 
         // Moving back till we hit a word boundary
         var caretPos = insertionPoint.ch;
-        startAt = insertionPoint
+        startAt = insertionPoint;
         while (caretPos) {
             text = editor.getRange({
                 line:insertionPoint.line,
@@ -303,7 +302,7 @@
             endsAt = {
                 line:insertionPoint.line,
                 ch:caretPos
-            }
+            };
         }
 
         return {

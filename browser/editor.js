@@ -61,7 +61,7 @@
         var linech = w.start;
         var xy = myCodeMirror.charCoords(linech);
         var word = w.word;
-        if (word != "") {
+        if (word !== "") {
             myCodeMirror.replaceRange(text, linech, w.end);
             myCodeMirror.focus();
         }
@@ -79,7 +79,6 @@
         });
     }
 
-    // Initialize CodeMirror editor with a nice html5 canvas demo.
     var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('code'), {
         mode:'markdown',
         lineNumbers:true,
@@ -96,7 +95,7 @@
     window.onbeforeunload = function (e) {
         e = e || window.event;
 
-        if ($.trim(myCodeMirror.getValue()) != "") {
+        if ($.trim(myCodeMirror.getValue()) !== "") {
             // For IE and Firefox prior to version 4
             if (e) {
                 e.returnValue = 'You will loose the text. Are you sure?';
@@ -162,7 +161,7 @@
     function showSuggestion() {
         var wordUnderCaret = getWordUnderCaret(myCodeMirror);
         var xy = myCodeMirror.charCoords(wordUnderCaret.start);
-        if (wordUnderCaret.word != "") showPopup(xy.x, xy.y, wordUnderCaret.word);
+        if (wordUnderCaret.word !== "") showPopup(xy.x, xy.y, wordUnderCaret.word);
         else hidePopup();
     }
 
@@ -194,7 +193,7 @@
                 html = "";
                 var textWidth = 0;
                 var selectList = $('#popup > select');
-                if (to_replace_when_response_available[data.input] != undefined) {
+                if (to_replace_when_response_available[data.input] !== undefined) {
                     wordToReplace = to_replace_when_response_available[data.input];
                     actualValueAtThatPos = myCodeMirror.getRange(wordToReplace.start, wordToReplace.end);
                     if (actualValueAtThatPos == data.input) {
@@ -246,7 +245,7 @@
     }
 
     function isWordBoundary(text) {
-        if (text === null || text == "" || text == " " || text == "\n" || text == "." || text == "\t" ||
+        if (text === null || text === "" || text == " " || text == "\n" || text == "." || text == "\t" ||
             text == "\r" || text == "\"" || text == "'" || text == "?" || text == "!" || text == "," ||
             text == "(" || text == ")" || text == "\u000B" || text == "\u000C" || text == "\u0085" ||
             text == "\u2028" || text == "\u2029" || text == "\u000D" || text == "\u000A" || text == ";") {

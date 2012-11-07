@@ -1,0 +1,16 @@
+div.toolbar, #editor_div{
+  display:none;
+}
+
+#preview_div{
+  width:100%;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+#preview{
+  border: 0;
+  margin: 0;
+  box-shadow: none;
+}

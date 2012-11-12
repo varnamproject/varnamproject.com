@@ -311,7 +311,6 @@
         };
     }
 
-
     function textChanged(editor, from, to, text, next) {
         window.clearTimeout(timer);
         updatePreview();
@@ -325,8 +324,8 @@
     }
 
 
-    function updatePreview() {
-        if (!$("#preview_div").is(':visible')) {
+    function updatePreview(force) {
+        if (!$("#preview_div").is(':visible') && !force) {
             return;
         }
         var previewFrame = document.getElementById('preview');
@@ -402,5 +401,10 @@
         var mode = localStorage.previewMode || "both";
         logglePreview(mode);
     }
+
+    $('#printBtn').click(function() {
+        updatePreview(true);
+        window.print();
+    });
 
 })();

@@ -3,6 +3,7 @@ div.toolbar, #editor_div{
 }
 
 #preview_div{
+  display:block !important;
   width:100%;
   margin: 0;
   border: 0;

@@ -4,7 +4,6 @@
 
     var suggestedItem = $('#popup select option'),
         isSuggestionDisplayed = false,
-        converter = new Showdown.converter(),
         ignoreTextChange = false,
         timer,
         suggestionList = "#popup select",
@@ -25,23 +24,32 @@
         WORD_BREAK_CHARS = [KEYS.ENTER, KEYS.TAB, KEYS.SPACE,
                              KEYS.PERIOD, KEYS.QUESTION, KEYS.EXCLAMATION, KEYS.COMMA,
                              KEYS.LEFT_BRACKET, KEYS.RIGHT_BRACKET, KEYS.SEMICOLON],
-        myCodeMirror = null;
+        myCodeMirror = null,
+        textChangedCallback = null,
+        lang = null;
 
     Varnam.init = function(options) {
         myCodeMirror = CodeMirror.fromTextArea(options.textArea, {
             mode: options.mode,
             lineNumbers: options.lineNumbers,
             lineWrapping: true,
-            onChange:textChanged,
+            onChange: textChanged,
             extraKeys:{
                 "Ctrl-Space":function (instance) {
                     showSuggestion();
                 }
             },
-            onKeyEvent:processEditorKeyEvent
+            onKeyEvent: processEditorKeyEvent
         });
 
+        textChangedCallback = options.textChangedCallback;
         initialEventSetup();
+        Varnam.editor = myCodeMirror;
+        Varnam.setLanguage(options.language);
+    };
+
+    Varnam.setLanguage = function(language) {
+        lang = language;
     };
 
     function initialEventSetup() {
@@ -85,9 +93,7 @@
     }
 
     function learnText(text) {
-        var lang = $('#selected_lang').data('lang');
         if (lang === undefined || lang === 'en') return;
-
         $.post("learn", {
             text:text,
             lang:lang
@@ -163,7 +169,6 @@
     }
 
     function showPopup(x, y, word) {
-        var lang = $('#selected_lang').data('lang');
         if (lang === 'en') return;
         var params = {
             'text':word,
@@ -301,84 +306,17 @@
 
     function textChanged(editor, from, to, text, next) {
         window.clearTimeout(timer);
-        updatePreview();
         if (ignoreTextChange) {
             return;
         }
-
-        timer = window.setTimeout(function () {
-            showSuggestion();
-        }, 10);
+        timer = window.setTimeout(function () { showSuggestion(); }, 10);
+        if (textChangedCallback !== null) {
+            textChangedCallback(editor, from, to, text, next);
+        }
     }
-
-
-    function updatePreview(force) {
-        if (!$("#preview_div").is(':visible') && !force) {
-            return;
-        }
-        var previewFrame = document.getElementById('preview');
-        previewFrame.contentWindow.document.body.innerHTML = converter.makeHtml(myCodeMirror.getValue());
-    }
-
-    $('button').click(function () {
-        var mode = $(this).data('preview');
-        switch (mode) {
-            case "editor":
-                $("#editor_div").removeClass("span6").addClass("span12");
-                $("#preview_div").hide();
-                $("#editor_div").show();
-                break;
-            case "both":
-                $("#editor_div").removeClass("span12").addClass("span6");
-                $("#preview_div").show();
-                $("#editor_div").show();
-                $('#preview_div').css('margin-left', $("#reserve").css('margin-left'));
-                $("#preview_div").removeClass("span12").addClass("span6");
-                updatePreview();
-                break;
-            case "preview":
-                $("#editor_div").hide();
-                $("#preview_div").show();
-                $("#preview_div").removeClass("span6").addClass("span12");
-                $('#preview_div').css('margin-left', '0');
-                updatePreview();
-                break;
-        }
-        savePreviewMode(mode);
-    });
-
-
-
-    $('.lang').click(function () {
-        $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");
-        $('#selected_lang').data('lang', $(this).data('lang'));
-        if (typeof(Storage) == "undefined") {
-            return;
-        }
-        localStorage.language = JSON.stringify({
-            name:$(this).text(),
-            code:$(this).data('lang')
-        });
-    });
 
     $('#network-error-close').click(function() {
         toggleErrorMessageVisibility(false);
-    });
-
-
-
-    function savePreviewMode(mode) {
-        if (typeof(Storage) == "undefined") {
-            return;
-        }
-        localStorage.previewMode = mode;
-    }
-
-
-
-    $('#printBtn').click(function() {
-        updatePreview(true);
-        window.print();
     });
 
 })();

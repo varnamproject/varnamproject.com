@@ -159,10 +159,15 @@
       <script type="text/javascript">
 
       $(document).ready(function () {
-          var options = {
+          var options =
+          {
             textArea: document.getElementById('code'),
             mode: 'markdown',
-            lineNumbers: true
+            lineNumbers: true,
+            textChangedCallback: function(editor, from, to, text, next) {
+              updatePreview();
+            },
+            language: $('#selected_lang').data('lang')
           };
 
           Varnam.init(options);

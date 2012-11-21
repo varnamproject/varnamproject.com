@@ -167,7 +167,8 @@
             textChangedCallback: function(editor, from, to, text, next) {
               updatePreview();
             },
-            language: $('#selected_lang').data('lang')
+            language: $('#selected_lang').data('lang'),
+            errorCallback: toggleErrorMessageVisibility
           };
 
           Varnam.init(options);

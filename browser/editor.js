@@ -26,7 +26,8 @@
                              KEYS.LEFT_BRACKET, KEYS.RIGHT_BRACKET, KEYS.SEMICOLON],
         myCodeMirror = null,
         textChangedCallback = null,
-        lang = null;
+        lang = null,
+        errorCallback = null;
 
     Varnam.init = function(options) {
         myCodeMirror = CodeMirror.fromTextArea(options.textArea, {
@@ -46,6 +47,7 @@
         initialEventSetup();
         Varnam.editor = myCodeMirror;
         Varnam.setLanguage(options.language);
+        errorCallback = options.errorCallback;
     };
 
     Varnam.setLanguage = function(language) {
@@ -159,15 +161,6 @@
         else hidePopup();
     }
 
-    function toggleErrorMessageVisibility(visible) {
-        if (visible) {
-            $('#network-error').fadeIn('slow');
-        }
-        else {
-            $('#network-error').fadeOut('slow');
-        }
-    }
-
     function showPopup(x, y, word) {
         if (lang === 'en') return;
         var params = {
@@ -182,7 +175,9 @@
             dataType:'jsonp',
             crossDomain:'true',
             success:function (data) {
-                toggleErrorMessageVisibility(false);
+                if (errorCallback !== null) {
+                    errorCallback(false);
+                }
                 html = "";
                 var textWidth = 0;
                 var selectList = $('#popup > select');
@@ -224,8 +219,8 @@
             error: function(request, status, error) {
                 show_error = true;
                 window.setTimeout(function () {
-                    if (show_error) {
-                        toggleErrorMessageVisibility(true);
+                    if (show_error && errorCallback !== null) {
+                        errorCallback(true);
                     }
                 }, 2000);
             }
@@ -314,9 +309,4 @@
             textChangedCallback(editor, from, to, text, next);
         }
     }
-
-    $('#network-error-close').click(function() {
-        toggleErrorMessageVisibility(false);
-    });
-
 })();

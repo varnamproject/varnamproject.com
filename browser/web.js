@@ -92,3 +92,15 @@ $('.lang').click(function() {
         code: $(this).data('lang')
     });
 });
+
+function toggleErrorMessageVisibility(visible) {
+    if (visible) {
+        $('#network-error').fadeIn('slow');
+    } else {
+        $('#network-error').fadeOut('slow');
+    }
+}
+
+$('#network-error-close').click(function() {
+    toggleErrorMessageVisibility(false);
+});

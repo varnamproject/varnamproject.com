@@ -157,6 +157,21 @@
       </div>
       <script src="javascripts/varnam.js"></script>
       <script type="text/javascript">
+
+      $(document).ready(function () {
+          var options = {
+            textArea: document.getElementById('code'),
+            mode: 'markdown',
+            lineNumbers: true
+          };
+
+          Varnam.init(options);
+          initPreviewMode();
+          selectLastUsedLanguage();
+          resizeFrame();
+        });
+
+
         jQuery.event.add(window, "resize", resizeFrame);
         function resizeFrame()
         {
@@ -168,7 +183,7 @@
           $(".CodeMirror").css('height',editorHeight);
           $(".CodeMirror-scroll").css('height',editorHeight);
         }
-        resizeFrame();
+
       </script>
 <div id="popup" class='CodeMirror-completions' style="display: none;">
   <select  multiple=true>

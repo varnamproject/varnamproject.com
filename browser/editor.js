@@ -1,4 +1,40 @@
+function initPreviewMode() {
+    if (typeof(Storage) == "undefined") {
+        return;
+    }
+    var mode = localStorage.previewMode || "both";
+    logglePreview(mode);
+}
+
+function logglePreview(mode) {
+    $("#" + mode + "Btn").click();
+}
+
+function selectLastUsedLanguage() {
+    if (typeof(Storage) != "undefined" && localStorage.language) {
+        var data = JSON.parse(localStorage.language);
+        $('.dropdown-toggle').html(data.name + " <span class='caret'></span>");
+        $('#selected_lang').data('lang', data.code);
+    }
+}
+
+window.onbeforeunload = function (e) {
+    e = e || window.event;
+    if ($.trim(myCodeMirror.getValue()) !== "") {
+        // For IE and Firefox prior to version 4
+        if (e) {
+            e.returnValue = 'You will loose the text. Are you sure?';
+        }
+
+        // For Safari
+        return 'You will loose the text. Are you sure?';
+    }
+};
+
 (function () {
+
+    window.Varnam = {};
+
     var suggestedItem = $('#popup select option'),
         isSuggestionDisplayed = false,
         converter = new Showdown.converter(),
@@ -19,15 +55,27 @@
             RIGHT_BRACKET:48,
             SEMICOLON:59
          },
-         WORD_BREAK_CHARS = [KEYS.ENTER, KEYS.TAB, KEYS.SPACE,
+        WORD_BREAK_CHARS = [KEYS.ENTER, KEYS.TAB, KEYS.SPACE,
                              KEYS.PERIOD, KEYS.QUESTION, KEYS.EXCLAMATION, KEYS.COMMA,
-                             KEYS.LEFT_BRACKET, KEYS.RIGHT_BRACKET, KEYS.SEMICOLON];
+                             KEYS.LEFT_BRACKET, KEYS.RIGHT_BRACKET, KEYS.SEMICOLON],
+        myCodeMirror = null;
 
-    $(document).ready(function () {
+    Varnam.init = function(options) {
+        myCodeMirror = CodeMirror.fromTextArea(options.textArea, {
+            mode: options.mode,
+            lineNumbers: options.lineNumbers,
+            lineWrapping: true,
+            onChange:textChanged,
+            extraKeys:{
+                "Ctrl-Space":function (instance) {
+                    showSuggestion();
+                }
+            },
+            onKeyEvent:processEditorKeyEvent
+        });
+
         initialEventSetup();
-        initPreviewMode();
-        selectLastUsedLanguage();
-    });
+    };
 
     function initialEventSetup() {
         suggestedItem.live('click', function () {
@@ -78,33 +126,6 @@
             lang:lang
         });
     }
-
-    var myCodeMirror = CodeMirror.fromTextArea(document.getElementById('code'), {
-        mode:'markdown',
-        lineNumbers:true,
-        lineWrapping:true,
-        onChange:textChanged,
-        extraKeys:{
-            "Ctrl-Space":function (instance) {
-                showSuggestion();
-            }
-        },
-        onKeyEvent:processEditorKeyEvent
-    });
-
-    window.onbeforeunload = function (e) {
-        e = e || window.event;
-
-        if ($.trim(myCodeMirror.getValue()) !== "") {
-            // For IE and Firefox prior to version 4
-            if (e) {
-                e.returnValue = 'You will loose the text. Are you sure?';
-            }
-
-            // For Safari
-            return 'You will loose the text. Are you sure?';
-        }
-    };
 
     function processWordBreaks() {
         var text = $("#popup select").find(":selected").text();
@@ -359,9 +380,7 @@
         savePreviewMode(mode);
     });
 
-    function logglePreview(mode) {
-        $("#" + mode + "Btn").click();
-    }
+
 
     $('.lang').click(function () {
         $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");
@@ -379,13 +398,7 @@
         toggleErrorMessageVisibility(false);
     });
 
-    function selectLastUsedLanguage() {
-        if (typeof(Storage) != "undefined" && localStorage.language) {
-            var data = JSON.parse(localStorage.language);
-            $('.dropdown-toggle').html(data.name + " <span class='caret'></span>");
-            $('#selected_lang').data('lang', data.code);
-        }
-    }
+
 
     function savePreviewMode(mode) {
         if (typeof(Storage) == "undefined") {
@@ -394,13 +407,7 @@
         localStorage.previewMode = mode;
     }
 
-    function initPreviewMode() {
-        if (typeof(Storage) == "undefined") {
-            return;
-        }
-        var mode = localStorage.previewMode || "both";
-        logglePreview(mode);
-    }
+
 
     $('#printBtn').click(function() {
         updatePreview(true);

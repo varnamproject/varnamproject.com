@@ -2,11 +2,13 @@
 
     window.Varnam = {};
 
-    var suggestedItem = $('#popup select option'),
-        isSuggestionDisplayed = false,
-        ignoreTextChange = false,
-        timer,
-        suggestionList = "#popup select",
+    var suggestionDivId         = 'popup',
+        suggestionDiv           = '#' + suggestionDivId,
+        suggestionList          = suggestionDiv + ' select',
+        suggestedItem           = suggestionDiv + suggestionList + ' option',
+        isSuggestionDisplayed   = false,
+        ignoreTextChange        = false,
+        timer                   = null,
         KEYS = {
             ESCAPE:27,
             ENTER:13,
@@ -20,14 +22,14 @@
             LEFT_BRACKET:57,
             RIGHT_BRACKET:48,
             SEMICOLON:59
-         },
-        WORD_BREAK_CHARS = [KEYS.ENTER, KEYS.TAB, KEYS.SPACE,
-                             KEYS.PERIOD, KEYS.QUESTION, KEYS.EXCLAMATION, KEYS.COMMA,
-                             KEYS.LEFT_BRACKET, KEYS.RIGHT_BRACKET, KEYS.SEMICOLON],
-        myCodeMirror = null,
-        textChangedCallback = null,
-        lang = null,
-        errorCallback = null;
+        },
+        WORD_BREAK_CHARS        =  [KEYS.ENTER, KEYS.TAB, KEYS.SPACE,
+                                    KEYS.PERIOD, KEYS.QUESTION, KEYS.EXCLAMATION, KEYS.COMMA,
+                                    KEYS.LEFT_BRACKET, KEYS.RIGHT_BRACKET, KEYS.SEMICOLON],
+        myCodeMirror            = null,
+        textChangedCallback     = null,
+        lang                    = null,
+        errorCallback           = null;
 
     Varnam.init = function(options) {
         myCodeMirror = CodeMirror.fromTextArea(options.textArea, {
@@ -44,19 +46,26 @@
         });
 
         textChangedCallback = options.textChangedCallback;
-        initialEventSetup();
         Varnam.editor = myCodeMirror;
         Varnam.setLanguage(options.language);
         errorCallback = options.errorCallback;
+
+        createSuggestionsDiv();
+        initialEventSetup();
     };
 
     Varnam.setLanguage = function(language) {
         lang = language;
     };
 
+    function createSuggestionsDiv() {
+        var divHtml = '<div id="' + suggestionDivId + '" class="CodeMirror-completions" style="display: none;"><select multiple="false"></select></div>';
+        $("body").append(divHtml);
+    }
+
     function initialEventSetup() {
-        suggestedItem.live('click', function () {
-            replaceWordUnderCaret($(this).text());
+        $("body").on('dblclick', suggestedItem, function () {
+            replaceWordUnderCaret(getSelectedSuggestion());
             ignoreTextChange = true;
         });
 
@@ -102,8 +111,12 @@
         });
     }
 
+    function getSelectedSuggestion() {
+        return $(suggestionList).find(":selected").text();
+    }
+
     function processWordBreaks() {
-        var text = $("#popup select").find(":selected").text();
+        var text = getSelectedSuggestion();
         if (text !== undefined && text !== '') replaceWordUnderCaret(text);
     }
 
@@ -129,7 +142,7 @@
 
         if (isSuggestionDisplayed) {
             if (_event.keyCode === KEYS.DOWN_ARROW) {
-                $("#popup select").focus();
+                $(suggestionList).focus();
                 _event.preventDefault();
                 _event.stopPropagation();
                 return true;
@@ -180,7 +193,6 @@
                 }
                 html = "";
                 var textWidth = 0;
-                var selectList = $('#popup > select');
                 if (to_replace_when_response_available[data.input] !== undefined) {
                     wordToReplace = to_replace_when_response_available[data.input];
                     actualValueAtThatPos = myCodeMirror.getRange(wordToReplace.start, wordToReplace.end);
@@ -200,15 +212,15 @@
                         if (textWidth < value.length) {
                             textWidth = value.length;
                         }
-                        $(selectList).html(html).css('width', (textWidth + 2) + 'em');
+                        $(suggestionList).html(html).css('width', (textWidth + 2) + 'em');
                     });
-                    $(selectList).html(html).css('height', (data.result.length+1) + 'em');
-                    var popup=$('#popup').css('display', "block").css('left', x + "px").css('top', (y + 15) + "px");
+                    $(suggestionList).html(html).css('height', (data.result.length+1) + 'em');
+                    var editor = $('.CodeMirror');
+                    var popup=$(suggestionDiv).css('display', "block").css('left', x + "px").css('top', (y + 15) + "px");
                     var popupHeight = popup.height();
                     var popupWidth = popup.width();
-                    var editor = $('.CodeMirror');
-                    if((y+popupHeight) > editor.position().top+editor.innerHeight()){
-                      popup.css('top',(y-popupHeight)+'px');
+                    if((y + popupHeight) > editor.position().top + editor.innerHeight()){
+                      popup.css('top',(y - popupHeight) + 'px');
                     }
                     if((x+popupWidth) > editor.position().left + editor.innerWidth()){
                         popup.css('left',(x-popupWidth)+'px');
@@ -228,7 +240,7 @@
     }
 
     function hidePopup() {
-        $('#popup').css('display', "none");
+        $(suggestionDiv).css('display', "none");
         isSuggestionDisplayed = false;
     }
 

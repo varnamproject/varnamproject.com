@@ -158,6 +158,7 @@
       <script type="text/javascript">
 
       $(document).ready(function () {
+          selectLastUsedLanguage();
           var options =
           {
             textArea: document.getElementById('code'),
@@ -172,7 +173,6 @@
 
           Varnam.init(options);
           initPreviewMode();
-          selectLastUsedLanguage();
           resizeFrame();
         });
 

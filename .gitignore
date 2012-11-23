@@ -3,3 +3,4 @@
 learnings.varnam*
 node_modules/*
 !node_modules/varnam.node
+tmp/

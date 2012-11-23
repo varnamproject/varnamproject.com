@@ -1,20 +1,46 @@
 <html>
 <head>
     <script src="javascripts/jquery-1.8.2.min.js"></script>
-    <script src="javascripts/varnam.js"></script>
+    <script src="javascripts/addon.js"></script>
+    <link rel="stylesheet" href="stylesheets/codemirror.css">
     <script type="text/javascript">
       $(document).ready(function () {
           var options = {
             textArea: document.getElementById('code'),
-            mode: 'markdown',
-            lineNumbers: true
+            language: 'ml',
+            height: document.getElementById('code').height
           };
 
           Varnam.init(options);
         });
       </script>
+    <style type="text/css">
+      /*body{
+        background: url("./img/bg.png") repeat scroll 0 0 #EDEDED;
+        -webkit-font-smoothing: antialiased;
+        height: 100%
+      }*/
+      .CodeMirror-completions {
+        position: absolute;
+        z-index: 10;
+        overflow: hidden;
+        -webkit-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+        -moz-box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+        box-shadow: 2px 3px 5px rgba(0,0,0,.2);
+      }
+      .CodeMirror-completions select {
+        background: #fafafa;
+        outline: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        font-family: monospace;
+      }
+    </style>
 </head>
 <body>
+<div>
 <textarea id="code"></textarea>
+</div>
 </body>
 </html>

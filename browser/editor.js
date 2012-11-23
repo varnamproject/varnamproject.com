@@ -43,11 +43,10 @@
             onKeyEvent: processEditorKeyEvent
         });
 
-        textChangedCallback = options.textChangedCallback;
         Varnam.editor = myCodeMirror;
         Varnam.setLanguage(options.language);
-        errorCallback = options.errorCallback;
-
+        textChangedCallback = options.textChangedCallback || null;
+        errorCallback = options.errorCallback || null;
         createSuggestionsDiv();
         initialEventSetup();
     };

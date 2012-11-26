@@ -38,7 +38,7 @@ function updatePreview(force) {
         return;
     }
     var previewFrame = document.getElementById('preview');
-    previewFrame.contentWindow.document.body.innerHTML = converter.makeHtml(Varnam.editor.getValue());
+    previewFrame.contentWindow.document.body.innerHTML = converter.makeHtml(varnam.getValue());
 }
 
 $('button').click(function() {
@@ -83,7 +83,7 @@ function savePreviewMode(mode) {
 $('.lang').click(function() {
     $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");
     $('#selected_lang').data('lang', $(this).data('lang'));
-    Varnam.setLanguage($(this).data('lang'));
+    varnam.setLanguage($(this).data('lang'));
     if (typeof(Storage) == "undefined") {
         return;
     }

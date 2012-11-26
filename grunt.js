@@ -8,6 +8,11 @@ module.exports = function(grunt) {
     jshint: {
       options: {
         browser: true
+      },
+      globals: {
+        jQuery: true,
+        $: true,
+        CodeMirror: true
       }
     },
     min: {

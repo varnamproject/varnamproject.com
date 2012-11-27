@@ -10,12 +10,6 @@
     <link rel="stylesheet" href="stylesheets/codemirror.css">
     <link rel="stylesheet" media="print" href="stylesheets/print.css">
 
-    <script src="javascripts/modernizr-2.6.2.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="javascripts/jquery-1.8.2.min.js">\x3C/script>')</script>
-    <script src="javascripts/showdown.min.js"></script>
-    <script src="javascripts/bootstrap.min.js"></script>
-
     <style type="text/css">
       /*body{
         background: url("./img/bg.png") repeat scroll 0 0 #EDEDED;
@@ -154,42 +148,9 @@
           <div class='span6' style='display:none' id='reserve'></div>
         </div>
       </div>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+      <script>window.jQuery || document.write('<script src="javascripts/jquery-1.8.2.min.js">\x3C/script>')</script>
       <script src="javascripts/varnam.js"></script>
-      <script type="text/javascript">
-
-      $(document).ready(function () {
-          selectLastUsedLanguage();
-          var options =
-          {
-            textArea: document.getElementById('code'),
-            mode: 'markdown',
-            lineNumbers: true,
-            textChangedCallback: function(editor, from, to, text, next) {
-              updatePreview();
-            },
-            language: $('#selected_lang').data('lang'),
-            errorCallback: toggleErrorMessageVisibility
-          };
-
-          varnam = VarnamIME(options);
-          initPreviewMode();
-          resizeFrame();
-        });
-
-
-        jQuery.event.add(window, "resize", resizeFrame);
-        function resizeFrame()
-        {
-          var h = $(window).innerHeight();
-          var toolbarHeight = $(".navbar").height();
-          var editorHeight= h-toolbarHeight-30;
-
-          $("#preview").css('height',editorHeight);
-          $(".CodeMirror").css('height',editorHeight);
-          $(".CodeMirror-scroll").css('height',editorHeight);
-        }
-
-      </script>
   </body>
 </html>
 

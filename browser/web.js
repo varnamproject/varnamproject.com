@@ -1,5 +1,35 @@
 var converter = new Showdown.converter();
 
+$(document).ready(function() {
+    selectLastUsedLanguage();
+    var options = {
+        textArea: document.getElementById('code'),
+        mode: 'markdown',
+        lineNumbers: true,
+        textChangedCallback: function(editor, from, to, text, next) {
+            updatePreview();
+        },
+        language: $('#selected_lang').data('lang'),
+        errorCallback: toggleErrorMessageVisibility
+    };
+
+    varnam = VarnamIME(options);
+    initPreviewMode();
+    resizeFrame();
+});
+
+jQuery.event.add(window, "resize", resizeFrame);
+
+function resizeFrame() {
+    var h = $(window).innerHeight();
+    var toolbarHeight = $(".navbar").height();
+    var editorHeight = h - toolbarHeight - 30;
+
+    $("#preview").css('height', editorHeight);
+    $(".CodeMirror").css('height', editorHeight);
+    $(".CodeMirror-scroll").css('height', editorHeight);
+}
+
 function initPreviewMode() {
     if (typeof(Storage) == "undefined") {
         return;

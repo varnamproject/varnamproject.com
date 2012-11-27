@@ -1,12 +1,7 @@
 NEEDS FIXING
 =============
-* Need to refactor the showPopup() function. It is not actually showing the popup, but does a lot...
 * clicking on top of a word shows the popup
 * when editing already written word, see if we have a english word available. If yes, replace it. Currently it is not happening.
-* When writing big paragraphs, suggestion window is shown in wrong locations.
-* Selecting a single word selects the whole text. Tested only on OSX.
-* Handle errors
-
 
 TO IMPLEMENT (ordered based on priority)
 ==============

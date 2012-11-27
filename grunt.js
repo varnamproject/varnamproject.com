@@ -39,7 +39,7 @@ module.exports = function(grunt) {
         dest: 'tmp/codemirror-full-min.js'
       },
       web: {
-        src: ['tmp/codemirror-full-min.js', 'tmp/editor-min.js', 'tmp/web-min.js'],
+        src: ['browser/deps/modernizr-2.6.2.min.js', 'browser/deps/showdown.min.js', 'browser/deps/bootstrap.min.js', 'tmp/codemirror-full-min.js', 'tmp/editor-min.js', 'tmp/web-min.js'],
         dest: 'public/javascripts/varnam.js'
       },
       addon: {

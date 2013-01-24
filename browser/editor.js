@@ -34,9 +34,9 @@ window.VarnamIME = (function() {
 
         myCodeMirror = CodeMirror.fromTextArea(options.textArea, {
             mode: options.mode,
-            lineNumbers: options.lineNumbers,
             lineWrapping: true,
             onChange: textChanged,
+            theme: 'ambiance',         
             extraKeys: {
                 "Ctrl-Space": function(instance) {
                     showSuggestion();
@@ -222,7 +222,7 @@ window.VarnamIME = (function() {
 
         function positionPopup(x, y) {
             var editor = $('.CodeMirror');
-            var popup = $(suggestionDiv).css('display', "block").css('left', x + "px").css('top', (y + 15) + "px");
+            var popup = $(suggestionDiv).css('display', "block").css('left', x + "px").css('top', (y + 25) + "px");
             var popupHeight = popup.height();
             var popupWidth = popup.width();
             if ((y + popupHeight) > editor.position().top + editor.innerHeight()) {

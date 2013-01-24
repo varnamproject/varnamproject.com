@@ -1,74 +1,65 @@
-<!doctype html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<!DOCTYPE html>
+<html>
+    <head>
+        <% include head %>
+        <title>Varnam - Cross platform opensource transliterator</title> 
+    </head>
+    <body>
+        <% include navigation %>
+        <div class="container main-content">
+            <div> 
+                <div>
+                    <h3>Welcome</h3>
+                    <p>Varnam project contains a set of cross-platform opensource tools which will help you to input in languages which are based on devanagari writing system. 
+                    </p>
+                    <h3><a id="downloads"></a>Download</h3>
+                    <p>
+                    <a href="https://chrome.google.com/webstore/detail/varnam-ime/abcfkeabpcanobhdmcmdabejaamephaf" 
+                        title="Download varnam from Google Chrome web store">
+                        <img src="images/ChromeWebStore_BadgeWBorder_v2_340x96.png" /></a>
+                    <span><img src="images/available_as_firefox_extension.png" /></span>
+                    </p> 
+                    <h3><a id="get_involved"></a>Get involved</h3>
+                    <p>Thank you for your interest. There are many different ways you can become part of this. </p>
+                    <p>If your favourite language is not available in varnam, you can help by adding it. In <em>libvarnam</em> you can add a new scheme and submit a pull request.</p>
+                    <p>If you want to use <em>libvarnam</em> in any of your applications, you can port <em>libvarnam</em> API functions to another programming language. There are already half done <em>ruby</em> and <em>nodejs</em> ports available.</p>
+                    <p>Project source code is available at Github
+                    <ul class="repolinks">
+                        <li><a href="https://github.com/navaneeth/libvarnam" title="libvarnam - Cross platform, opensource transliterator"><em>libvarnam</em></a> - Core library</li>
+                        <li><a href="https://github.com/navaneeth/libvarnam-nodejs" title="nodejs port for libvarnam"><em>libvarnam-nodejs</em></a> - Nodejs port of libvarnam</li>
+                        <li><a href="https://github.com/navaneeth/varnam-browser-addons" title="Firefox & Chrome IME for libvarnam"><em>varnam-browser-addons</em></a> - Firefox & Chrome addons</li>
+                        <li><a href="https://github.com/navaneeth/varnamproject.com" title="varnamproject.com and REST API"><em>varnamproject.com</em></a> - Website source and REST API implementation</li>
+                    </ul>
+                    </p>
+                    <h3><a id="concepts"></a>Concepts</h3>
+                    <p>Varnam uses phonetic transliteration based approach and defines particular scheme for each language. <em>libvarnam</em> is the core library that all varnam projects use. <em>libvarnam</em> is a shared library that implements the transliterator and a reverse transliterator. 
+                    </p>
+                    <p><em>libvarnam</em> is implemented as a learning program. It can learn words as you type. <em>libvarnam</em> keeps all the words it learned and when transliterating, it makes use of this knowledge to provide better suggestions. For eg: to input the text "മലയാളം", in a phonetic based transliteration system, you would have to input "malayaaLam". But in varnam just inputting "malayalam" can give you the word "മലയാളം". Varnam knows about half a million malayalam words today (adding more languages is work in progress) and it becomes better with more use. With this knowledge, varnam can ease the input time considerably for beginners. 
+                    </p>
+                    <p><em>libvarnam</em> has a fairly simple API and written using standard C. <em>libvarnam</em> can be easily embedded to your application which will enable indic input support for those applications. If you have a standalone application, you can embed the "libvarnam.so" or "libvarnam.dll" or even a statically compiled version of the library. Web applications can use the REST API interface to enable indic input.
+                    </p>
+                    <h3>How is varnam different from Google transliterate?</h3>
+                    <p>Varnam does all the things that google transliterate does. However there are few key differences which varnam has when compared to google transliterate.</p>
+                    <p>Google transliterate works completely based on a pre-learned dictionary based predictive transliteration. Varnam works very much in the same way, but with more open attitude to learning. Varnam is capable to do partial tokenization and construct words which are not known varnam from the words that are already known</p>
+                    <p>It is very tough to input complex words using Google transliterate. Google transliterate works best for simple words. But when it's prediction system gets things wrong, it gives weird suggestions and it will be very difficult to get the word we need to input. In varnam, literal phonetic based transliteration will always be done together with the predictions. Which means you can write the word according to the scheme that you are using and once you write it properly, varnam learns the word. From then onwards, you can input and varnam does the hard work for you.</p>  
+                    <p>Google transliterate is not open source where varnam is open source. Anyone can contribute to varnam and add or modify their favourite language. Varnam can also be embedded to your application to enable indic input. <em>libvarnam</em> has very few dependencies and can be compiled even on mobile platforms.
+                    </p>
+                    <h3>Discussions</h3>
+                    <p>You can use <a href="https://groups.google.com/forum/?fromgroups#!forum/varnamproject" title="Varnam mailing list">mailing list</a> for discussions. Join IRC at #varnamproject on freenode. 
 
-  <title></title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-  <link rel="stylesheet" href="stylesheets/bootstrap.css">
-  <link rel="stylesheet" href="stylesheets/bootstrap-responsive.css">
-  <link rel="stylesheet" href="stylesheets/styles.css">
-  <script src="javascripts/libs/modernizr-2.5.3.min.js"></script>
-</head>
-<body>
-  <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
-  chromium.org/developers/how-tos/chrome-frame-getting-started -->
-  <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
-  <header>
-<div class="container">
-     <div class="row">
-      <div class="span4 logo">
-        <h1><a>varnam</a></h1>
-      </div>
-      <div class="span8">
-          <nav>
-            <ul>
-              <li><a href="#">home</a></li>
-               <li><a href="#">home</a></li>
-                <li><a href="#">home</a></li>
-            </ul>
-          </nav>
+                    </p>
+                </div>
 
-          <div class="headlines">
-            <p>sa jdfasdjkhf aklsdjfh aksdjhf kaldjsfh akdjsfh adjksfh adskjfh adshj</p>
-            <p><a href="#" class="button">download</a>
-              <a href="#" class="button">try now</a>
-            </p>
-          </div>
+            </div>
+        </div>
+        <% include footer %>
+       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-1.7.1.min.js"><\/script>')</script>
 
-      </div>
-    </div>
-  </div>
-  </header>
-<div class="container main-content">
-     <div class="row">
-      <div class="span12">lorem ipsum dolor amit</div>
+            <!-- scripts concatenated and minified via build script -->
+            <script src="javascripts/plugins.js"></script>
+            <script src="javascripts/script.js"></script>
+            <!-- end scripts -->
 
-    </div>
-  </div>
-</footer>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="javascripts/libs/jquery-1.7.1.min.js"><\/script>')</script>
-
-<!-- scripts concatenated and minified via build script -->
-<script src="javascripts/plugins.js"></script>
-<script src="javascripts/script.js"></script>
-<!-- end scripts -->
-
-  <!-- Asynchronous Google Analytics snippet. Change UA-XXXXX-X to be your site's ID.
-  mathiasbynens.be/notes/async-analytics-snippet -->
-  <script>
-  var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-    s.parentNode.insertBefore(g,s)}(document,'script'));
-  </script>
-</body>
-</html>
+        </body>
+    </html>

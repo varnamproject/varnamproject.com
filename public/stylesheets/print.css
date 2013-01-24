@@ -1,4 +1,4 @@
-div.toolbar, #editor_div{
+div.toolbar, #editor_div, header, .navbar{
   display:none;
 }
 

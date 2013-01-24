@@ -14,8 +14,9 @@ $(document).ready(function() {
     };
 
     varnam = VarnamIME(options);
-    initPreviewMode();
     resizeFrame();
+    $("#preview_div").hide();
+
 });
 
 jQuery.event.add(window, "resize", resizeFrame);
@@ -28,18 +29,6 @@ function resizeFrame() {
     $("#preview").css('height', editorHeight);
     $(".CodeMirror").css('height', editorHeight);
     $(".CodeMirror-scroll").css('height', editorHeight);
-}
-
-function initPreviewMode() {
-    if (typeof(Storage) == "undefined") {
-        return;
-    }
-    var mode = localStorage.previewMode || "both";
-    logglePreview(mode);
-}
-
-function logglePreview(mode) {
-    $("#" + mode + "Btn").click();
 }
 
 function selectLastUsedLanguage() {
@@ -75,12 +64,12 @@ $('button').click(function() {
     var mode = $(this).data('preview');
     switch (mode) {
     case "editor":
-        $("#editor_div").removeClass("span6").addClass("span12");
+        //$("#editor_div").removeClass("span6").addClass("span12");
         $("#preview_div").hide();
         $("#editor_div").show();
         break;
     case "both":
-        $("#editor_div").removeClass("span12").addClass("span6");
+        //$("#editor_div").removeClass("span12").addClass("span6");
         $("#preview_div").show();
         $("#editor_div").show();
         $('#preview_div').css('margin-left', $("#reserve").css('margin-left'));
@@ -90,25 +79,17 @@ $('button').click(function() {
     case "preview":
         $("#editor_div").hide();
         $("#preview_div").show();
-        $("#preview_div").removeClass("span6").addClass("span12");
+        //$("#preview_div").removeClass("span6").addClass("span12");
         $('#preview_div').css('margin-left', '0');
         updatePreview();
         break;
     }
-    savePreviewMode(mode);
 });
 
 $('#printBtn').click(function() {
     updatePreview(true);
     window.print();
 });
-
-function savePreviewMode(mode) {
-    if (typeof(Storage) == "undefined") {
-        return;
-    }
-    localStorage.previewMode = mode;
-}
 
 $('.lang').click(function() {
     $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");

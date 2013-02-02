@@ -2,7 +2,6 @@ body {
     background: url("../images/stressed_linen.png") repeat scroll 0 0 #151515;
     /*color: #EAEAEA;*/
     color: #B3B3B3;
-    font-family: Monaco,"Bitstream Vera Sans Mono","Lucida Console",Terminal,monospace;
     line-height: 1.5;
     margin: 0 0 10px;
     padding: 0;
@@ -25,8 +24,8 @@ header h1:before {
     background: none repeat scroll 0 0 rgba(186, 196, 204, 0.12);
     border-radius: 10px 10px 10px 10px;
     margin-top: 15px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .footer {
@@ -60,6 +59,10 @@ h1, h2, h3 {
 
 .main-content h3 {
     font-size: 18px;
+}
+
+.logo {
+    font-family: Monaco,"Bitstream Vera Sans Mono","Lucida Console",Terminal,monospace;
 }
 
 header .logo h2{

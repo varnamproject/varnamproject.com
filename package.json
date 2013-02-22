@@ -19,7 +19,8 @@
   "dependencies": {
     "express": "3.0.0rc3",
     "ejs": "*",
-    "stylus": "*"
+    "stylus": "*",
+    "sqlite3": "*"
   },
   "scripts": {
    "start": "node server.js"

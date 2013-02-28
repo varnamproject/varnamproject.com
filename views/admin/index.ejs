@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Varnam admin</title>
+
+        <link href="/stylesheets/bootstrap.css" rel="stylesheet">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <style>
+            body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+            }
+        </style>
+
+        <script type="text/javascript">
+            $(function() {
+                    $('#showWordsLearned').click(fetchWordsLearned);
+                    $('#search').click(searchForWordOrPatterns);
+                    $('body').on('click', 'button.word_delete', deleteWord);
+            });
+
+            function deleteWord() {
+                var ok = confirm('Are you sure?');
+                if (ok) {
+                    var wordId = $(this).data('word-id');
+                    var lang = $(this).data('word-lang');
+                    var self = $(this);
+                    $.post("admin/delete_word", {lang: lang, id: wordId }, function(data) {
+                            var tr = self.closest('tr');
+                            tr.fadeOut('slow', function() {
+                            });
+                    });
+                }
+            }
+
+            function getSelectedLang() {
+                return $('#languagesForWordsLearned').find(':selected').val();
+            }
+
+            function fetchWordsLearned() {
+                var days = $('#numberOfDays').val();
+                var lang = getSelectedLang(); 
+                var params = {lang: lang, days: days};
+                $.ajax({
+                     url: 'admin/words_learned_last_days?' + $.param(params),
+                     success: function(data) {
+                        renderWords('wordsLearnedRecently', data);
+                     },
+                     error: function requestFailed(request, status, error) {
+                        alert(error);
+                     }
+                });
+            }
+
+            function searchForWordOrPatterns() {
+                var word = $('#wordToSearch').val();
+                var pattern = $('#patternToSearch').val();
+                var lang = getSelectedLang();
+                var searchingFor = '';
+                if (word.length > 0) {
+                    searchingFor = 'word';
+                }
+                else if (pattern.length > 0) {
+                    searchingFor = 'pattern';
+                }
+                else {
+                    alert('You need to enter something to search');
+                    return;
+                }
+                switch (searchingFor)
+                {
+                    case 'word':
+                        var params = {lang: lang, word: word};
+                        $.ajax({
+                            url: 'admin/search_word?' + $.param(params),
+                            success: function(data) {
+                                renderWords('searchResults', data);
+                            },
+                            error: function requestFailed(request, status, error) {
+                                alert(error);
+                            }
+                        });
+
+                        break;
+                }
+            }
+
+            function createTable(columns) {
+                var table = document.createElement('table');
+                table.setAttribute('class', 'table');
+                var tHead = document.createElement('thead');
+                var headRow = document.createElement('tr');
+                for (var i = 0; i < columns.length; i++) {
+                    var th = document.createElement('th');
+                    th.appendChild(document.createTextNode(columns[i]));
+                    headRow.appendChild(th);
+                }
+
+                tHead.appendChild(headRow);
+                table.appendChild(tHead);
+               
+                return table;
+            }
+
+            function addRow(table, row) {
+                var tr = document.createElement('tr');
+                for (var i = 0; i < row.length; i++) {
+                    var td = document.createElement('td');
+                    var thisCell = row[i];
+                    if (typeof (thisCell) !== 'object') {
+                        td.appendChild(document.createTextNode(thisCell));
+                    }
+                    else {
+                        td.appendChild(thisCell);
+                    }
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+
+            function renderWords(parentId, data) {
+                var table = createTable(['#', 'Word', 'Confidence', 'Learned on', '#']);
+                for (var i = 0; i < data.length; i++) {
+                    var thisData = data[i];
+                    var deleteButton = document.createElement('button');
+                    deleteButton.appendChild(document.createTextNode('Delete'));
+                    deleteButton.setAttribute('data-word-id', thisData.id);
+                    deleteButton.setAttribute('data-word-lang', getSelectedLang());
+                    deleteButton.setAttribute('class', 'word_delete');
+
+                    addRow(table, [thisData.id, thisData.word, thisData.confidence, thisData.learnedOn, deleteButton]);
+                }
+
+                var div = document.getElementById(parentId);
+                clearChildren(div);
+                var totalResultsSpan = document.createElement('span');
+                totalResultsSpan.appendChild(document.createTextNode(data.length + ' result(s) found'));
+                div.appendChild(totalResultsSpan);
+                div.appendChild(table);
+            }
+
+            function clearChildren(parent) {
+                while (parent.firstChild) {
+                    parent.removeChild(parent.firstChild);
+                }
+            }
+        </script>
+
+    </head>
+
+    <body>
+        <% var allLanguages = [{value: "ml", text: "Malayalam"}, {value: "gu", text: "Gujarati"}]; %>
+        <% var languageOptionsHTML = ''; %>
+        <% for(var i=0; i < allLanguages.length; i++) { %>
+        <% var thisLang = allLanguages[i]; %>
+        <% languageOptionsHTML += "<option value='" + thisLang.value + "'>" + thisLang.text + "</option>"; %>
+        <% } %>
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="brand" href="#">Varnam</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="#about">Search</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+
+            <h1>Summary</h1>
+            <legend></legend>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Language</th>
+                        <th>#Learned today</th>
+                        <th>#Total words</th>
+                        <th>#Total patterns</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i < summary.length; i++) { %>
+                    <tr>
+                        <% var s = summary[i] %>
+                        <td><%= i + 1 %></td>
+                        <td><%= summary[i].name %></td>
+                        <td>NONE</td>
+                        <td><%= summary[i].totalWords %></td>
+                        <td><%= s.totalPatterns %></td>
+                    </tr>
+                    <% } %>
+                </tbody>
+            </table>
+            <h1>Words learned in last few days</h1>
+            <legend></legend>
+            <div>
+                <fieldset class="form-inline">
+                    <input id="numberOfDays" type="text" placeholder="Enter number of days" value="3">
+                    <select id="languagesForWordsLearned">
+                        <%- languageOptionsHTML %>
+                    </select>
+                    <button type="submit" class="btn" id="showWordsLearned">Show</button>
+                </fieldset>
+                <div id="wordsLearnedRecently">
+                </div>
+            </div>
+            <h1>Search</h1>
+            <div>
+                    <fieldset class="form-inline">
+                        <legend></legend>
+                        <input type="text" placeholder="Enter a word" id="wordToSearch">
+                        <label>&nbsp;OR&nbsp;</label>
+                        <input type="text" placeholder="Enter a pattern" id="patternToSearch">
+                        <label>&nbsp;Language&nbsp;</label>
+                        <select id="languagesForSearch">
+                            <%- languageOptionsHTML %>
+                        </select>
+                        <button type="submit" class="btn" id="search">Submit</button>
+                    </fieldset>
+            </div>
+            <div id="searchResults">
+            </div>
+        </div> <!-- /container -->
+
+    </body>
+</html>
+

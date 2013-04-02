@@ -1,21 +1,22 @@
 module.exports = function(grunt) {
 
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   // Project configuration.
   grunt.initConfig({
-    lint: {
-      all: ['grunt.js', 'browser/editor.js', 'browser/web.js']
-    },
     jshint: {
+      all: ['Gruntfile.js', 'browser/editor.js', 'browser/web.js'],
       options: {
-        browser: true
-      },
-      globals: {
-        jQuery: true,
-        $: true,
-        CodeMirror: true
+        browser: true,
+        globals: {
+          jQuery: true,
+          $: true,
+          CodeMirror: true
+        }
       }
     },
-    min: {
+    uglify: {
       editor: {
         src: 'browser/editor.js',
         dest: 'tmp/editor-min.js'
@@ -50,7 +51,7 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint min concat');
-  grunt.registerTask('concatonly', 'lint concat');
+  grunt.registerTask('default', ['jshint', 'uglify', 'concat']);
+  grunt.registerTask('concatonly', ['jshint', 'concat']);
 
 };

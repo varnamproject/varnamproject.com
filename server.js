@@ -6,6 +6,8 @@ var fs      = require('fs');
 var http    = require('http')
   , path    = require('path');
 
+var db = require("./lib/varnamdb");
+
 //  Local cache for static content [fixed and loaded at startup]
 var zcache = { 'index.html': '' };
 zcache['index.html'] = fs.readFileSync('./index.html'); //  Cache index.html
@@ -31,11 +33,6 @@ app.configure(function(){
 var routes  = require('./routes')
 
 app.get('/', routes.index);
-
-// Handler for GET /health
-app.get('/health', function(req, res){
-    res.send('1');
-});
 
 // Handler for GET /
 app.get('/', function(req, res){
@@ -68,6 +65,8 @@ process.on('exit', function() { terminator(); });
 ].forEach(function(element, index, array) {
     process.on(element, function() { terminator(element); });
 });
+
+db.createSchema();
 
 //  And start the app on that interface (and port).
 app.listen(port, ipaddr, function() {

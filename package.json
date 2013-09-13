@@ -20,7 +20,8 @@
     "express": "3.0.0rc3",
     "ejs": "*",
     "mysql": "*",
-    "stylus": "*"
+    "stylus": "*",
+    "forever-monitor": "*"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

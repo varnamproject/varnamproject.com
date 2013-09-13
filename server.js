@@ -68,6 +68,20 @@ process.on('exit', function() { terminator(); });
 
 db.createSchema();
 
+// Start the varnam worker instance which takes care of BG jobs
+var forever = require('forever-monitor');
+var child = new (forever.Monitor)('varnam_worker.js', {
+    max: 1000,
+    silent: false,
+    options: []
+});
+
+child.on('exit', function () {
+    console.log('varnam_worker has exited after many restarts');
+});
+
+child.start();
+
 //  And start the app on that interface (and port).
 app.listen(port, ipaddr, function() {
    console.log('%s: Node server started on %s:%d ...', Date(Date.now() ),

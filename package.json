@@ -21,7 +21,8 @@
     "ejs": "*",
     "mysql": "*",
     "stylus": "*",
-    "forever-monitor": "*"
+    "forever-monitor": "*",
+    "sqlite3": "*"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

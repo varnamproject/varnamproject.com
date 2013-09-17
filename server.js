@@ -2,15 +2,10 @@
 //  OpenShift sample Node application
 
 var express = require('express');
-var fs      = require('fs');
 var http    = require('http')
   , path    = require('path');
 
 var db = require("./lib/varnamdb");
-
-//  Local cache for static content [fixed and loaded at startup]
-var zcache = { 'index.html': '' };
-zcache['index.html'] = fs.readFileSync('./index.html'); //  Cache index.html
 
 // Create "express" server.
 app  = express();
@@ -20,23 +15,14 @@ app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   app.use(express.favicon());
-  // app.use(express.logger('dev'));
+  app.use(express.compress());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
   app.use(express.session());
-  app.use(app.router);
   app.use(require('stylus').middleware(__dirname + '/public'));
   app.use(express.static(path.join(__dirname, 'public')));
-});
-
-var routes  = require('./routes')
-
-app.get('/', routes.index);
-
-// Handler for GET /
-app.get('/', function(req, res){
-    res.send(zcache['index.html'], {'Content-Type': 'text/html'});
+  app.use(app.router);
 });
 
 //  Get the environment variables we need.
@@ -81,6 +67,8 @@ child.on('exit', function () {
 });
 
 child.start();
+
+var routes  = require('./routes')
 
 //  And start the app on that interface (and port).
 app.listen(port, ipaddr, function() {

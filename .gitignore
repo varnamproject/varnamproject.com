@@ -2,3 +2,4 @@
 *.DS_Store
 learnings.varnam*
 tmp/
+node_modules/sqlite3/

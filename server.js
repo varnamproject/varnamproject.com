@@ -26,11 +26,11 @@ app.configure(function(){
 });
 
 //  Get the environment variables we need.
-var ipaddr  = process.env.OPENSHIFT_INTERNAL_IP;
-var port    = process.env.OPENSHIFT_INTERNAL_PORT || 8080;
+var ipaddr  = process.env.VARNAM_IP_ADDRESS;
+var port    = process.env.VARNAM_WEB_PORT || 3000;
 
 if (typeof ipaddr === "undefined") {
-   console.warn('No OPENSHIFT_INTERNAL_IP environment variable');
+   console.warn('No IP_ADDRESS environment variable');
 }
 
 //  terminator === the termination handler.

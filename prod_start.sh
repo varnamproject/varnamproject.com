@@ -6,7 +6,7 @@ export NODE_ENV=production
 
 npm install
 # To keep node running if crashed
-npm install supervisor -g
+sudo npm install supervisor -g
 
 # Extract node.js script from package.json
 APP_FILE=`node -e 'var package=require("./package.json");console.log(package.scripts.start.split(/ /)[1]);'`

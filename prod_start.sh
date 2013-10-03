@@ -2,6 +2,7 @@
 
 cd ${VARNAM_WEB_ROOT_DIR}
 
+export LD_LIBRARY_PATH=/usr/local/lib
 export NODE_ENV=production
 
 npm install

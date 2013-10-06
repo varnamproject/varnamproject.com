@@ -7,11 +7,13 @@ var http    = require('http')
 
 var db = require("./lib/varnamdb");
 
+var ipaddr  = process.env.VARNAM_IP_ADDRESS;
+var port    = process.env.VARNAM_WEB_PORT || 3000;
+
 // Create "express" server.
 app  = express();
-
 app.configure(function(){
-  app.set('port', process.env.PORT || 8080);
+  app.set('port', port);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   app.use(express.favicon());
@@ -24,10 +26,6 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(app.router);
 });
-
-//  Get the environment variables we need.
-var ipaddr  = process.env.VARNAM_IP_ADDRESS;
-var port    = process.env.VARNAM_WEB_PORT || 3000;
 
 if (typeof ipaddr === "undefined") {
    console.warn('No IP_ADDRESS environment variable');
@@ -53,20 +51,6 @@ process.on('exit', function() { terminator(); });
 });
 
 db.createSchema();
-
-// Start the varnam worker instance which takes care of BG jobs
-var forever = require('forever-monitor');
-var child = new (forever.Monitor)('varnam_worker.js', {
-    max: 1000,
-    silent: false,
-    options: []
-});
-
-child.on('exit', function () {
-    console.log('varnam_worker has exited after many restarts');
-});
-
-child.start();
 
 var routes  = require('./routes')
 

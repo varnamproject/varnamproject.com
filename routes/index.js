@@ -7,10 +7,17 @@ app.get('/editor', function(req, res) {
 
 app.get('/supported_languages', functions.supported_languages);
 
-// /tl?lang=code&text=text_to_transliterate
-app.get('/tl', functions.tl);
-app.get('/rtl', functions.rtl);
+app.get('/tl', function (req, res) {
+    res.redirect("/api/tl/" + req.query.lang + "/" + req.query.text);
+});
+app.get('/rtl', function (req, res) {
+    res.redirect("/api/rtl/" + req.query.lang + "/" + req.query.text);
+});
+
 app.post('/learn', functions.learn);
+app.post('/api/learn', functions.learn);
+app.get('/api/tl/:langCode/:word', functions.tl);
+app.get('/api/rtl/:langCode/:word', functions.rtl);
 app.get('/words/:langCode/:year/:month/:date', functions.wordsToDownload);
 
 app.get('/', function(req, res) {

@@ -97,7 +97,7 @@ window.VarnamIME = (function() {
 
         function learnText(text) {
             if (lang === undefined || lang === 'en') return;
-            $.post("learn", {
+            $.post("api/learn", {
                 text: text,
                 lang: lang
             });
@@ -173,7 +173,7 @@ window.VarnamIME = (function() {
             var show_error = false;
             hidePopup();
             var request = $.ajax({
-                url: 'tl?' + $.param(params),
+                url: 'api/tl/' + lang + '/' + word,
                 dataType: 'jsonp',
                 crossDomain: 'true',
                 success: function(data) {

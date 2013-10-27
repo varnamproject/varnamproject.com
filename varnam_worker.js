@@ -3,7 +3,7 @@
 var learnFromQueue = require('./bg/learn_from_queue.js'),
     pushDownloads  = require('./bg/push_downloads.js'),
     sleepTimeInSec = 10,
-    jobs = [learnFromQueue.startLearning, pushDownloads.startPushing];
+    jobs = [learnFromQueue.startLearning, learnFromQueue.deleteOldRecords, pushDownloads.startPushing];
 
 function dispatcher() {
     for (var i = 0; i < jobs.length; i++) {

@@ -120,6 +120,7 @@ window.VarnamIME = (function() {
             return false;
         }
 
+        var lastKeyWasEscape = false;
         function processEditorKeyEvent(editor, e) {
             var _event = $.event.fix(e);
             if (_event.type != "keydown") {
@@ -129,6 +130,7 @@ window.VarnamIME = (function() {
 
             if (_event.keyCode == KEYS.ESCAPE) {
                 hidePopup();
+                lastKeyWasEscape = true;
                 return;
             }
 
@@ -149,8 +151,11 @@ window.VarnamIME = (function() {
                 }
             } else if (_event.keyCode == KEYS.SPACE) {
                 ignoreTextChange = true;
-                var word = getWordUnderCaret(myCodeMirror);
-                to_replace_when_response_available[word.word] = word;
+                if (!lastKeyWasEscape) {
+                    var word = getWordUnderCaret(myCodeMirror);
+                    to_replace_when_response_available[word.word] = word;
+                }
+                lastKeyWasEscape = false;
             } else if (isWordBreakKey(_event.keyCode)) {
                 ignoreTextChange = true;
             }
@@ -201,8 +206,9 @@ window.VarnamIME = (function() {
                                 textWidth = value.length;
                             }
                         });
+                        html += '<option data-english="true">' + data.input + '</option>';
 
-                        $(suggestionList).html(html).css('height', (data.result.length + 1) + 'em').css('width', (textWidth + 2) + 'em');
+                        $(suggestionList).html(html).css('height', (data.result.length + 5) + 'em').css('width', (textWidth + 2) + 'em');
                         positionPopup(x, y);
                         isSuggestionDisplayed = true;
                     }

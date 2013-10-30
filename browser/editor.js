@@ -44,6 +44,7 @@ window.VarnamIME = (function() {
             },
             onKeyEvent: processEditorKeyEvent
         });
+        window.myCodeMirror = myCodeMirror;
 
         textChangedCallback = options.textChangedCallback || null;
         errorCallback = options.errorCallback || null;

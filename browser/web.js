@@ -1,6 +1,7 @@
 var converter = new Showdown.converter();
 
 $(document).ready(function() {
+    hookUnloadEvent();
     selectLastUsedLanguage();
     var options = {
         textArea: document.getElementById('code'),
@@ -39,18 +40,20 @@ function selectLastUsedLanguage() {
     }
 }
 
-window.onbeforeunload = function(e) {
-    e = e || window.event;
-    if ($.trim(myCodeMirror.getValue()) !== "") {
-        // For IE and Firefox prior to version 4
-        if (e) {
-            e.returnValue = 'You will loose the text. Are you sure?';
-        }
+function hookUnloadEvent() {
+    window.onbeforeunload = function(e) {
+        e = e || window.event;
+        if ($.trim(myCodeMirror.getValue()) !== "") {
+            // For IE and Firefox prior to version 4
+            if (e) {
+                e.returnValue = 'You will loose the text. Are you sure?';
+            }
 
-        // For Safari
-        return 'You will loose the text. Are you sure?';
-    }
-};
+            // For Safari
+            return 'You will loose the text. Are you sure?';
+        }
+    };
+}
 
 function updatePreview(force) {
     if (!$("#preview_div").is(':visible') && !force) {

@@ -78,7 +78,9 @@ function learnFromQueue() {
                     var handle = helper.getVarnamHandle (row.lang_code);
                     if (handle != undefined) {
                         var rowStatus = handle.isKnownWord(row.word) ? learnStatus.Learned : learnStatus.NeedsApproval;
-                        handle.learn(row.word, function (err) {});
+                        handle.learn(row.word, function (err) {
+                            if (err) console.log(err.message);
+                        });
                         changeStatus(row.id, rowStatus);
                     }
                     else {

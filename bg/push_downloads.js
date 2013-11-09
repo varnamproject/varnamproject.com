@@ -57,7 +57,7 @@ function pushWordsForClientsToDownload() {
             var db = new sqlite3.Database (helper.getLearningsFilePath(langCode));
             db.serialize(function() {
                 var q = "select w.* from words w, patterns_content p where w.id = p.word_id "
-                        + "and w.learned_on = ? and p.learned = 1 group by w.word order by word";
+                        + "and date(w.learned_on, 'unixepoch') = ? and p.learned = 1 group by w.word order by word";
                 db.each(q, [d], function(err, row) {
                     if (err) {
                         console.log (err);

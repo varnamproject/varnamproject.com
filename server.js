@@ -5,8 +5,6 @@ var http    = require('http')
   , fs      = require('fs')
   , path    = require('path');
 
-var db = require("./lib/varnamdb");
-
 var ipaddr  = process.env.VARNAM_IP_ADDRESS;
 var port    = process.env.VARNAM_WEB_PORT || 3000;
 
@@ -53,7 +51,10 @@ process.on('exit', function() { terminator(); });
     process.on(element, function() { terminator(element); });
 });
 
-db.createSchema();
+if (process.env.VARNAM_NO_MYSQL === undefined) {
+  var db = require("./lib/varnamdb");
+  db.createSchema();
+}
 
 var routes  = require('./routes')
 

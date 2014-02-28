@@ -24,6 +24,10 @@ app.get('/', function(req, res) {
   	res.render('index', { title: 'Varnam' });
 });
 
+app.get('/downloads', function (req, res) {
+	res.redirect("/docs/downloads");
+});
+app.get('/docs', functions.serveDocs);
 app.get('/docs/*', functions.serveDocs);
 
 app.get("*", function(req, res) {

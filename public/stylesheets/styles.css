@@ -128,3 +128,14 @@ header.inner {height:100px;background: url("../images/bg.jpg") no-repeat scroll 
 header.inner .logo{height:100px;}
 header.inner .logo h1{line-height:100px;}
 
+pre {
+    background-color: black;
+    color: #666;
+}
+
+.main-intro {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 0px;
+}
+

@@ -9,6 +9,11 @@ body {
     font-weight: normal;
 }
 
+code {
+    border: 0px;
+    background-color: rgba(186, 196, 204, 0.12);
+}
+
 .container {
     max-width: 800px;
     margin: 0 auto;

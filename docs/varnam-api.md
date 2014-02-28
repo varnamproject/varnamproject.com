@@ -19,7 +19,7 @@ int main(int args, char **argv)
   varray *result;
   vword *word;
 
-  rc = varnam_init("path/to/ml-unicode.vst", &handle, &error);
+  rc = varnam_init_from_lang ("hi", &handle, &error);
   if (rc != VARNAM_SUCCESS)
   {
      printf ("Initialization failed. %s\n", error);

@@ -1,8 +1,8 @@
 #!/bin/env node
-//  OpenShift sample Node application
 
 var express = require('express');
 var http    = require('http')
+  , fs      = require('fs')
   , path    = require('path');
 
 var db = require("./lib/varnamdb");
@@ -12,10 +12,13 @@ var port    = process.env.VARNAM_WEB_PORT || 3000;
 
 // Create "express" server.
 app  = express();
+
 app.configure(function(){
   app.set('port', port);
+  app.set('root_directory', __dirname);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
+  app.set('view cache', true);
   app.use(express.favicon());
   app.use(express.compress());
   app.use(express.bodyParser());

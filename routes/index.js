@@ -24,6 +24,8 @@ app.get('/', function(req, res) {
   	res.render('index', { title: 'Varnam' });
 });
 
+app.get('/docs/*', functions.serveDocs);
+
 app.get("*", function(req, res) {
     helper.render404(res);
 });

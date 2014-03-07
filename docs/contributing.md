@@ -2,7 +2,7 @@
 
 # Contributing
 
-Thank you for your interest. This page explains high level ideas that are planned for Varnam, but still staying in the pending state. If you are interested in any of the ideas, feel free to drop a note to the [mailing list](https://lists.nongnu.org/mailman/listinfo/varnamproject-discuss) and start working on it.
+Thank you for your interest. This page explains high level ideas that are planned for Varnam, but still staying in the pending state. If you are interested in any of the ideas, feel free to drop a note to the [mailing list](https://lists.nongnu.org/mailman/listinfo/varnamproject-discuss) and start working on it. The best way to start contributing is by looking at the [bugs](https://savannah.nongnu.org/bugs/?group=varnamproject) and start fixing. This will give you enough information about the codebase and how to hack it.
 
 Following are the rough areas where more work is required. 
 
@@ -20,12 +20,42 @@ Varnam is cross platform and it can work well on Windows. Create a Windows IME w
 * Complexity: Advanced
 * Knowledge required: C++, Windows programming
 
-## Programming language binding
+## Programming language bindings & varnam-daemon
 
 Varnam is written on C which makes interoperability with other languages easy. There are language bindings available for `NodeJs` and `Ruby`. Supporting Varnam in multiple languages allows projects to use varnam easily to enable Indian language input.
 
-* Complexity: Moderate
+To make using varnam from different languages easier, make a cross platform standalone process which uses `libvarnam` shared library and exposes a RPC API over network. This allows any programming language with a socket support can be used with libvarnam. This also makes language bindings fairly easy because they don't have to work with the native interoperability support. The protocol can be a simple text based protocol for all the commands that `libvarnam` supports. 
+
+* Complexity: Advanced
 * Knowledge required: C, knowledge on the language that you are writing the binding
+* Savannah task: [13119](https://savannah.nongnu.org/task/index.php?13119)
+
+## Create an Android IME
+
+Android has an extensible input method system. Use that to make a IME which uses varnam internally. This includes, getting `libvarnam` compiled on android first. 
+
+* Complexity: Advanced
+* Knowledge required: C, Android, Java
+* Savannah task: [13120](https://savannah.nongnu.org/task/index.php?13120)
+
+## Enable varnam's suggestions system to be used from Inscript or any other input system
+
+Varnam has knowledge about lot of words. This idea proposes a method to use these words and provide suggestions for other input systems. Basically, in Varnam, the API call will be something like,
+
+```c
+varnam_get_suggestions (handle, "भारत");
+```
+
+This will fetch all the suggestions which has the given prefix. 
+
+`varnam_get_suggestions` needs to keep track of the previous words and use [n-gram](http://en.wikipedia.org/wiki/N-gram) based dataset to filter the results. This should also learn the words back into the word corpus that varnam is using. Filtering suggestions won't be just a prefix search, but it will have knowledge about how text can be written in the target language and provide smart filtering. Searching in a large corpus and providing real-time suggestions makes this a challenging task. 
+
+Once this is implemented in `libvarnam`, it can be used in the ibus-engine.
+
+* Complexity: Advanced
+* Knowledge required: C
+* Savannah task: [13121](https://savannah.nongnu.org/task/index.php?13121)
+
 
 ## Improve the learning system
 

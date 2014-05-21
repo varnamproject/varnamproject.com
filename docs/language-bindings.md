@@ -6,7 +6,7 @@
 You need to build the NodeJs module before using this.
 
 ```bash
-> git clone git://gitorious.org/varnamproject/libvarnam-nodejs.git
+> git clone git@github.com:varnamproject/libvarnam-nodejs.git
 > cd libvarnam-nodejs
 > node-gyp configure && node-gyp build
 ```

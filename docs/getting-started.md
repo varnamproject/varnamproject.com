@@ -17,7 +17,7 @@ If you are not going to modify the source code of libvarnam, you can install the
 For developing libvarnam, it is better to checkout from the git.
 
 ```sh
-> git clone git://gitorious.org/varnamproject/libvarnam.git
+> git clone git@github.com:varnamproject/libvarnam.git
 > cd libvarnam
 > cmake . && make
 > # Compile a scheme file of your choice
@@ -69,7 +69,7 @@ You need to install the following dependencies:
 * libvarnam
 
 ```sh
-> git clone git://gitorious.org/varnamproject/libvarnam-ibus.git
+> git clone git@github.com:varnamproject/libvarnam-ibus.git
 > cd libvarnam-ibus
 > cmake . && make && sudo make install
 ```

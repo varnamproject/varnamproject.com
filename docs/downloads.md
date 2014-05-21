@@ -16,7 +16,7 @@ Varnam can be used as a Firefox/Chrome extension and as an IBus engine.
 
 ## IBus engine
 
-IBus engine is not yet released. You can track the work [here](https://gitorious.org/varnamproject/libvarnam-ibus)
+IBus engine is not yet released. You can track the work [here](https://github.com/varnamproject/libvarnam-ibus)
 
 ## Source download for libvarnam
 

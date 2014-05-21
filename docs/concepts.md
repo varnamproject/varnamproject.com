@@ -24,7 +24,7 @@ Compiling a scheme file produces a `vst` (varnam symbol table) file which can be
 > varnamc -s schemefile.vst --transliterate varnam
 ```
 
-Look inside [schemes/](https://gitorious.org/varnamproject/libvarnam/source/68a17b6e2e5d114d6a606a9a47294917655a167f:schemes) directory to understand the structure of a scheme file. 
+Look inside [schemes/](https://github.com/varnamproject/libvarnam/tree/master/schemes) directory to understand the structure of a scheme file. 
 
 ## libvarnam
 
@@ -55,7 +55,7 @@ There is an experimental support for Ruby, Go and Java. Most of the language bin
 
 ## IBus Engine
 
-IBus engine which uses libvarnam and provide offline input for Linux. This is not yet released and the work is in progress. You can track the progress in the [Git repository](https://gitorious.org/varnamproject/libvarnam-ibus).
+IBus engine which uses libvarnam and provide offline input for Linux. This is not yet released and the work is in progress. You can track the progress in the [Git repository](https://github.com/varnamproject/libvarnam-ibus).
 
 
 ## Browser addons

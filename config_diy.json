@@ -1,6 +1,0 @@
-{
-  "nodejs": {
-    "version": "v0.10.18",
-    "removeOld": false
-  }
-}

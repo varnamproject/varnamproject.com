@@ -421,6 +421,12 @@ section h3.section-subheading {
     z-index: 2;
 }
 
+@media(max-width:767px) {
+    .github{
+        display: none;
+    }
+}
+
 @media(min-width:767px) {
     #portfolio .portfolio-item {
         margin: 0 0 30px;
@@ -541,6 +547,9 @@ section h3.section-subheading {
 }
 
 @media(min-width:768px) {
+    .github{
+        display: block;
+    }
     .timeline:before {
         left: 50%;
     }

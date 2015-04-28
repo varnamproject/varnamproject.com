@@ -98,10 +98,14 @@ window.VarnamIME = (function() {
 
         function learnText(text) {
             if (lang === undefined || lang === 'en') return;
-            $.post("api/learn", {
-                text: text,
-                lang: lang
-            });
+						var data =  JSON.stringify({text: text, lang: lang});
+						$.ajax({
+							type: "POST",
+							url: "http://api.varnamproject.com/learn",
+							data: data,
+							success: function() {},
+							contentType: "application/json; charset=utf-8"
+						});
         }
 
         function getSelectedSuggestion() {
@@ -179,9 +183,9 @@ window.VarnamIME = (function() {
             var show_error = false;
             hidePopup();
             var request = $.ajax({
-                url: 'api/tl/' + lang + '/' + word,
-                dataType: 'jsonp',
-                crossDomain: 'true',
+              url: 'http://api.varnamproject.com/tl/' + lang + '/' + word,
+                //dataType: 'jsonp',
+                //crossDomain: 'true',
                 success: function(data) {
                     if (errorCallback !== null) {
                         errorCallback(false);

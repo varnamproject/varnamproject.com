@@ -2,6 +2,7 @@ var converter = new Showdown.converter();
 
 $(document).ready(function() {
     hookUnloadEvent();
+		loadSupportedLanguages();
     selectLastUsedLanguage();
     var options = {
         textArea: document.getElementById('code'),
@@ -19,6 +20,29 @@ $(document).ready(function() {
     $("#preview_div").hide();
 
 });
+
+function loadSupportedLanguages() {
+	var url = "http://api.varnamproject.com/languages";
+	var request = $.ajax({
+      url: url,
+      crossDomain: 'true',
+      success: function(data) {
+				var supportedLanguages = document.getElementById('supported-languages');
+				for (var i = 0; i < data.length; i++) {
+					var language = data[i];
+					var a = document.createElement('a');
+					a.setAttribute('href', '#');
+					a.setAttribute('class', 'lang');
+					a.setAttribute('data-lang', language.Identifier);
+					a.appendChild(document.createTextNode(language.DisplayName + (!language.IsStable ? " (Experimental)" : "")));
+					var li = document.createElement('li');
+					li.appendChild(a);
+					supportedLanguages.appendChild(li);
+				}
+      },
+      error: function requestFailed(request, status, error) {
+             }});
+}
 
 jQuery.event.add(window, "resize", resizeFrame);
 
@@ -94,7 +118,7 @@ $('#printBtn').click(function() {
     window.print();
 });
 
-$('.lang').click(function() {
+$('#supported-languages').on('click', '.lang', function() {
     $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");
     $('#selected_lang').data('lang', $(this).data('lang'));
     varnam.setLanguage($(this).data('lang'));

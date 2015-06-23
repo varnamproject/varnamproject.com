@@ -30,13 +30,14 @@ window.VarnamIME = (function() {
             myCodeMirror = null,
             textChangedCallback = null,
             lang = 'en',
+            isPeriodRedefined = false,
             errorCallback = null;
 
         myCodeMirror = CodeMirror.fromTextArea(options.textArea, {
             mode: options.mode,
             lineWrapping: true,
             onChange: textChanged,
-            theme: 'ambiance',         
+            theme: 'ambiance',
             extraKeys: {
                 "Ctrl-Space": function(instance) {
                     showSuggestion();
@@ -119,6 +120,10 @@ window.VarnamIME = (function() {
 
         function isWordBreakKey(keyCode) {
             var exists = $.inArray(keyCode, WORD_BREAK_CHARS) == -1 ? false : true;
+            var isPeriod = (keyCode == KEYS.PERIOD);
+            if (isPeriod && isPeriodRedefined) {
+              return false;
+            }
             if (exists) {
                 return true;
             }
@@ -251,7 +256,12 @@ window.VarnamIME = (function() {
 
         function isWordBoundary(text) {
             if (text === null || text === "" || text == " " || text == "\n" || text == "." || text == "\t" || text == "\r" || text == "\"" || text == "'" || text == "?" || text == "!" || text == "," || text == "(" || text == ")" || text == "\u000B" || text == "\u000C" || text == "\u0085" || text == "\u2028" || text == "\u2029" || text == "\u000D" || text == "\u000A" || text == ";") {
-                return true;
+
+              if (text == "." && isPeriodRedefined) {
+                return false;
+              }
+
+              return true;
             }
 
             return false;
@@ -329,6 +339,10 @@ window.VarnamIME = (function() {
             setLanguage: function(language) {
                 lang = language;
             },
+            // Some languages redefines the period character. Hindi for example
+            setPeriodRedefined: function(v) {
+                isPeriodRedefined = v;
+            },
             getValue: function() {
                 return myCodeMirror.getValue();
             },
@@ -337,6 +351,7 @@ window.VarnamIME = (function() {
             }
         };
         instance.setLanguage(options.language);
+        instance.setPeriodRedefined(options.periodRedefined);
 
         return instance;
     }

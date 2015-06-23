@@ -12,6 +12,7 @@ $(document).ready(function() {
             updatePreview();
         },
         language: $('#selected_lang').data('lang'),
+        periodRedefined: $('#selected_lang').data('period-redefined'),
         errorCallback: toggleErrorMessageVisibility
     };
 
@@ -27,6 +28,7 @@ function loadSupportedLanguages() {
       url: url,
       crossDomain: 'true',
       success: function(data) {
+        var periodRedefinedLangs = ["hi"];
 				var supportedLanguages = document.getElementById('supported-languages');
 				for (var i = 0; i < data.length; i++) {
 					var language = data[i];
@@ -34,6 +36,7 @@ function loadSupportedLanguages() {
 					a.setAttribute('href', '#');
 					a.setAttribute('class', 'lang');
 					a.setAttribute('data-lang', language.Identifier);
+          a.setAttribute('data-period-redefined', $.inArray(language.Identifier, periodRedefinedLangs) == -1 ? false : true);
 					a.appendChild(document.createTextNode(language.DisplayName + (!language.IsStable ? " (Experimental)" : "")));
 					var li = document.createElement('li');
 					li.appendChild(a);
@@ -61,6 +64,7 @@ function selectLastUsedLanguage() {
         var data = JSON.parse(localStorage.language);
         $('.dropdown-toggle').html(data.name + " <span class='caret'></span>");
         $('#selected_lang').data('lang', data.code);
+        $('#selected_lang').data('period-redefined', data.periodRedefined);
     }
 }
 
@@ -122,12 +126,14 @@ $('#supported-languages').on('click', '.lang', function() {
     $('.dropdown-toggle').html($(this).text() + " <span class='caret'></span>");
     $('#selected_lang').data('lang', $(this).data('lang'));
     varnam.setLanguage($(this).data('lang'));
+    varnam.setPeriodRedefined($(this).data('period-redefined'));
     if (typeof(Storage) == "undefined") {
         return;
     }
     localStorage.language = JSON.stringify({
         name: $(this).text(),
-        code: $(this).data('lang')
+        code: $(this).data('lang'),
+        periodRedefined: $(this).data('period-redefined')
     });
 });
 

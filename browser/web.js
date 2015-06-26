@@ -23,7 +23,7 @@ $(document).ready(function() {
 });
 
 function loadSupportedLanguages() {
-	var url = "http://api.varnamproject.com/languages";
+	var url = "https://api.varnamproject.com/languages";
 	var request = $.ajax({
       url: url,
       crossDomain: 'true',

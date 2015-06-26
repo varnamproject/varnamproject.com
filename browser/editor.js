@@ -102,7 +102,7 @@ window.VarnamIME = (function() {
 						var data =  JSON.stringify({text: text, lang: lang});
 						$.ajax({
 							type: "POST",
-							url: "http://api.varnamproject.com/learn",
+							url: "https://api.varnamproject.com/learn",
 							data: data,
 							success: function() {},
 							contentType: "application/json; charset=utf-8"
@@ -188,7 +188,7 @@ window.VarnamIME = (function() {
             var show_error = false;
             hidePopup();
             var request = $.ajax({
-              url: 'http://api.varnamproject.com/tl/' + lang + '/' + word,
+              url: 'https://api.varnamproject.com/tl/' + lang + '/' + word,
                 //dataType: 'jsonp',
                 //crossDomain: 'true',
                 success: function(data) {

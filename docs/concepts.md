@@ -4,7 +4,7 @@
 
 Varnam is based on phonetic transliteration, and defines a particular scheme for each language. libvarnam is the core library that all Varnam projects use. It is a shared library that implements a transliterator, a reverse transliterator and a learning subsystem.
 
-ilibvarnam is a learning program, that is, it can learn words as you type. It stores the words it has learned, and makes use of this knowledge to provide suggestions while transliterating.
+Libvarnam is a learning program, that is, it can learn words as you type. It stores the words it has learned, and makes use of this knowledge to provide suggestions while transliterating.
 
 For instance, to input the text "മലയാളം", in other phonetic based transliteration systems, you will have to input "malayaaLam". But in Varnam, just inputting "malayalam" can give you the word "മലയാളം". Varnam knows about half a million Malayalam words as of now, and it gets better with more use. Varnam can ease the input time considerably for beginners, compared to other transliteration systems.
 
